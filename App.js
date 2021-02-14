@@ -8,13 +8,14 @@ const Stack = createStackNavigator();
 
 const App = () => {
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="Splash" component={Splash} />
-        <Stack.Screen name="Welcome" component={FirstScreen} />
-        <Stack.Screen name="Daftar" component={RegistrationScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    // <NavigationContainer>
+    //   <Stack.Navigator>
+    //     <Stack.Screen name="Splash" component={Splash} />
+    //     <Stack.Screen name="Welcome" component={FirstScreen} />
+    //     <Stack.Screen name="Daftar" component={RegistrationScreen} />
+    //   </Stack.Navigator>
+    // </NavigationContainer>
+    <RegistrationScreen />
   );
 };
 
