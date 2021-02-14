@@ -1,7 +1,7 @@
 import React from 'react';
 import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
 
-const FirstScreen = () => {
+const FirstScreen = ({navigation}) => {
   return (
     <View style={{alignItems: 'center'}}>
       <View style={{alignItems: 'center', width: 280}}>

@@ -1,7 +1,7 @@
 import React from 'react';
 import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
 
-const FirstScreen = () => {
+const FirstScreen = ({navigation}) => {
   return (
     <View style={{alignItems: 'center'}}>
       <Image
@@ -12,7 +12,8 @@ const FirstScreen = () => {
         <Text style={styles.text}>Masuk</Text>
       </TouchableOpacity>
       <TouchableOpacity
-        style={[styles.button, {backgroundColor: 'white', marginTop: 23}]}>
+        style={[styles.button, {backgroundColor: 'white', marginTop: 23}]}
+        onPress={() => navigation.navigate('Daftar')}>
         <Text style={{color: 'black'}}>Daftar</Text>
       </TouchableOpacity>
     </View>

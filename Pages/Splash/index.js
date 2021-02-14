@@ -1,7 +1,13 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {StyleSheet, View, Image} from 'react-native';
 
-const Splash = () => {
+const Splash = ({navigation}) => {
+  useEffect(() => {
+    setTimeout(() => {
+      navigation.replace('Welcome');
+    }, 2000);
+  });
+
   return (
     <View style={{alignItems: 'center'}}>
       <Image
