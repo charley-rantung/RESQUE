@@ -8,7 +8,9 @@ const FirstScreen = ({navigation}) => {
         source={require('../../Assets/Images/ResqueLogo1.png')}
         style={styles.image}
       />
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => navigation.navigate('Login')}>
         <Text style={styles.text}>Masuk</Text>
       </TouchableOpacity>
       <TouchableOpacity

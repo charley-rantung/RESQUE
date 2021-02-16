@@ -1,7 +1,7 @@
 import React from 'react';
 import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
 
-const FirstScreen = () => {
+const FirstScreen = ({navigation}) => {
   return (
     <View style={{alignItems: 'center'}}>
       <View style={{alignItems: 'center', width: 280}}>
@@ -10,17 +10,21 @@ const FirstScreen = () => {
           style={styles.image}
         />
         <Text style={[styles.text, {alignSelf: 'flex-start', top: 55}]}>
-          Masuk Sebagai:{' '}
+          Masuk Sebagai:
         </Text>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate('LoginKonsumen')}>
           <Text style={[styles.text, {color: 'white'}]}>Konsumen</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={[styles.button, {backgroundColor: 'white', marginTop: 23}]}>
+          style={[styles.button, {backgroundColor: 'white', marginTop: 23}]}
+          onPress={() => navigation.navigate('LoginManajemen')}>
           <Text style={[styles.text, {color: 'black'}]}>Manajemen</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={[styles.button, {backgroundColor: 'white', marginTop: 23}]}>
+          style={[styles.button, {backgroundColor: 'white', marginTop: 23}]}
+          onPress={() => navigation.navigate('LoginSatgas')}>
           <Text style={[styles.text, {color: 'black'}]}>Satgas</Text>
         </TouchableOpacity>
       </View>

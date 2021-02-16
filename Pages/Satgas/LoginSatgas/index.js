@@ -8,7 +8,7 @@ import {
   TextInput,
 } from 'react-native';
 
-const LoginKonsumen = ({navigation}) => {
+const LoginSatgas = () => {
   return (
     <View style={{alignItems: 'center'}}>
       <View style={{alignItems: 'center', width: 280}}>
@@ -16,8 +16,7 @@ const LoginKonsumen = ({navigation}) => {
           source={require('../../../Assets/Images/ResqueLogo1.png')}
           style={styles.image}
         />
-        <Text
-          style={[styles.text, {alignSelf: 'flex-start', top: 55, opacity: 0}]}>
+        <Text style={[styles.text, {alignSelf: 'flex-start', top: 55, opacity:0}]}>
           Masuk Sebagai:{' '}
         </Text>
         <TextInput
@@ -29,9 +28,7 @@ const LoginKonsumen = ({navigation}) => {
           placeholder="Password"
           secureTextEntry={true}
         />
-        <TouchableOpacity
-          style={[styles.button, {marginTop: 15}]}
-          onPress={() => navigation.navigate('DashboardKonsumen')}>
+        <TouchableOpacity style={[styles.button, {marginTop: 15}]}>
           <Text style={[styles.text, {color: 'white'}]}>Masuk</Text>
         </TouchableOpacity>
       </View>
@@ -39,7 +36,7 @@ const LoginKonsumen = ({navigation}) => {
   );
 };
 
-export default LoginKonsumen;
+export default LoginSatgas;
 
 const styles = StyleSheet.create({
   image: {

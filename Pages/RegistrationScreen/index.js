@@ -10,7 +10,7 @@ const FirstScreen = ({navigation}) => {
           style={styles.image}
         />
         <Text style={[styles.text, {alignSelf: 'flex-start', top: 55}]}>
-          Daftar Sebagai:{' '}
+          Daftar Sebagai:
         </Text>
         <TouchableOpacity style={styles.button}>
           <Text style={[styles.text, {color: 'white'}]}>Konsumen</Text>
