@@ -1,25 +1,42 @@
 import React from 'react';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
 import {createStackNavigator} from '@react-navigation/stack';
-import {StyleSheet, Text, View} from 'react-native';
+import {Image} from 'react-native';
 import {
   HomescreenKonsumen,
+  DeskripsiKonsumen,
+  PemesananKonsumen,
   ListscreenKonsumen,
   ProfilescreenKonsumen,
 } from '../../index';
 
-const Tab = createBottomTabNavigator();
+const Tab = createMaterialBottomTabNavigator();
 const HomeStack = createStackNavigator();
 const ListStack = createStackNavigator();
 const ProfileStack = createStackNavigator();
 
 const HomestackScreen = ({navigation}) => {
   return (
-    <HomeStack.Navigator initialRouteName="HomeScreenKonsumen">
+    <HomeStack.Navigator
+      initialRouteName="HomeScreenKonsumen"
+      screenOptions={{
+        headerStyle: {backgroundColor: '#2D4F6C'},
+        headerTintColor: '#ffffff',
+      }}>
       <HomeStack.Screen
         name="HomeScreenKonsumen"
         component={HomescreenKonsumen}
         options={{headerShown: false}}
+      />
+      <HomeStack.Screen
+        name="DeskripsiKonsumen"
+        component={DeskripsiKonsumen}
+        options={{headerShown: true, headerTitle: 'Deskripsi'}}
+      />
+      <HomeStack.Screen
+        name="PemesananKonsumen"
+        component={PemesananKonsumen}
+        options={{headerShown: true, headerTitle: 'Deskripsi'}}
       />
     </HomeStack.Navigator>
   );
@@ -49,14 +66,53 @@ const ProfilestackScreen = ({navigation}) => {
 
 const DashboardKonsumen = () => {
   return (
-    <Tab.Navigator initialRouteName="Home">
-      <Tab.Screen name="Home" component={HomestackScreen} />
-      <Tab.Screen name="List" component={ListstackScreen} />
-      <Tab.Screen name="Profile" component={ProfilestackScreen} />
+    <Tab.Navigator
+      initialRouteName="Home"
+      inactiveColor="#e5e5e5"
+      backBehavior="none"
+      barStyle={{backgroundColor: '#2D4F6C'}}
+      shifting={true}>
+      <Tab.Screen
+        name="Home"
+        component={HomestackScreen}
+        options={{
+          tabBarLabel: 'Home',
+          tabBarIcon: () => (
+            <Image
+              source={require('../../../Assets/Icons/home.png')}
+              style={{height: 28, width: 28}}
+            />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="List"
+        component={ListstackScreen}
+        options={{
+          tabBarLabel: 'List',
+          tabBarIcon: () => (
+            <Image
+              source={require('../../../Assets/Icons/list.png')}
+              style={{height: 28, width: 28}}
+            />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Profile"
+        component={ProfilestackScreen}
+        options={{
+          tabBarLabel: 'Account',
+          tabBarIcon: () => (
+            <Image
+              source={require('../../../Assets/Icons/account.png')}
+              style={{height: 28, width: 28}}
+            />
+          ),
+        }}
+      />
     </Tab.Navigator>
   );
 };
 
 export default DashboardKonsumen;
-
-const styles = StyleSheet.create({});

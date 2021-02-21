@@ -6,6 +6,8 @@ import RegistrationScreen from './RegistrationScreen';
 import LoginKonsumen from './Konsumen/LoginKonsumen';
 import DashboardKonsumen from './Konsumen/DashboardKonsumen';
 import HomescreenKonsumen from './Konsumen/HomescreenKonsumen';
+import DeskripsiKonsumen from './Konsumen/DeskripsiKonsumen';
+import PemesananKonsumen from './Konsumen/PemesananKonsumen';
 import ListscreenKonsumen from './Konsumen/ListscreenKonsumen';
 import ProfilescreenKonsumen from './Konsumen/ProfilescreenKonsumen';
 
@@ -18,6 +20,8 @@ export {
   LoginKonsumen,
   DashboardKonsumen,
   HomescreenKonsumen,
+  DeskripsiKonsumen,
+  PemesananKonsumen,
   ListscreenKonsumen,
   ProfilescreenKonsumen,
 };

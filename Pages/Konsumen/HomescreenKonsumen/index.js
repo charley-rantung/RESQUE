@@ -51,7 +51,7 @@ const Card = ({navigation}) => {
         </View>
         <TouchableOpacity
           style={[styles.button, {backgroundColor: 'white'}]}
-          onPress={() => navigation.navigate('')}>
+          onPress={() => navigation.navigate('DeskripsiKonsumen')}>
           <Text
             style={[
               styles.text,
@@ -74,7 +74,7 @@ const HomescreenKonsumen = ({navigation}) => {
           flexWrap: 'wrap',
           justifyContent: 'space-evenly',
         }}>
-        <Card />
+        <Card navigation={navigation} />
         <Card />
         <Card />
         <Card />
