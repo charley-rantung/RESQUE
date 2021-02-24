@@ -12,15 +12,18 @@ const FirstScreen = ({navigation}) => {
         <Text style={[styles.text, {alignSelf: 'flex-start', top: 55}]}>
           Daftar Sebagai:
         </Text>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate('DaftarKonsumen')}>
           <Text style={[styles.text, {color: 'white'}]}>Konsumen</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={[styles.button, {backgroundColor: 'white', marginTop: 23}]}>
+          style={[styles.button, {backgroundColor: 'white', marginTop: 23}]}
+          onPress={() => navigation.navigate('DaftarManajemen')}>
           <Text style={[styles.text, {color: 'black'}]}>Manajemen</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={[styles.button, {backgroundColor: 'white', marginTop: 23}]}>
+          style={[styles.button, {backgroundColor: 'white', marginTop: 23}]} onPress={() => navigation.navigate('DaftarSatgas')}>
           <Text style={[styles.text, {color: 'black'}]}>Satgas</Text>
         </TouchableOpacity>
       </View>

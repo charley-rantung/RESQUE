@@ -8,9 +8,12 @@ import {
   LoginScreen,
   RegistrationScreen,
   LoginKonsumen,
+  DaftarKonsumen,
   DashboardKonsumen,
   LoginManajemen,
+  DaftarManajemen,
   LoginSatgas,
+  DaftarSatgas,
 } from './Pages';
 
 const Stack = createStackNavigator();
@@ -56,6 +59,11 @@ const App = () => {
           options={{title: 'Masuk sebagai Konsumen'}}
         />
         <Stack.Screen
+          name="DaftarKonsumen"
+          component={DaftarKonsumen}
+          options={{title: 'Daftar sebagai Konsumen'}}
+        />
+        <Stack.Screen
           name="DashboardKonsumen"
           component={DashboardKonsumen}
           options={{headerShown: false}}
@@ -66,11 +74,21 @@ const App = () => {
           component={LoginManajemen}
           options={{title: 'Masuk sebagai Manajemen'}}
         />
+        <Stack.Screen
+          name="DaftarManajemen"
+          component={DaftarManajemen}
+          options={{title: 'Daftar sebagai Manajemen'}}
+        />
         {/* UI Satgas */}
         <Stack.Screen
           name="LoginSatgas"
           component={LoginSatgas}
           options={{title: 'Masuk sebagai Satgas'}}
+        />
+        <Stack.Screen
+          name="DaftarSatgas"
+          component={DaftarSatgas}
+          options={{title: 'Daftar sebagai Satgas'}}
         />
       </Stack.Navigator>
     </NavigationContainer>

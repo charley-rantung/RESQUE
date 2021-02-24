@@ -25,3 +25,7 @@
 ## React Native Date Picker (https://github.com/henninghall/react-native-date-picker)
 - "react-native-date-picker": "^3.2.9"
 > `npm install react-native-date-npm install react-native-date-picker`
+
+## Radio Button React Native (https://github.com/sramezani/radio-buttons-react-native)
+- "radio-buttons-react-native": "^1.0.4"
+> `npm i radio-buttons-react-native`

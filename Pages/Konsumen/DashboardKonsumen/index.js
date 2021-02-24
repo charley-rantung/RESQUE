@@ -6,6 +6,10 @@ import {
   HomescreenKonsumen,
   DeskripsiKonsumen,
   PemesananKonsumen,
+  MenungguKonfirmasi,
+  KonfirmasiSelesai,
+  Catatan,
+  PembayaranKonsumen,
   ListscreenKonsumen,
   ProfilescreenKonsumen,
 } from '../../index';
@@ -38,16 +42,41 @@ const HomestackScreen = ({navigation}) => {
         component={PemesananKonsumen}
         options={{headerShown: true, headerTitle: 'Deskripsi'}}
       />
+      <HomeStack.Screen
+        name="MenungguKonfirmasi"
+        component={MenungguKonfirmasi}
+        options={{headerShown: true, headerTitle: 'Waiting...'}}
+      />
     </HomeStack.Navigator>
   );
 };
 const ListstackScreen = ({navigation}) => {
   return (
-    <ListStack.Navigator initialRouteName="ListScreenKonsumen">
-      <ListStack.Screen
+    <ListStack.Navigator
+      initialRouteName="ListScreenKonsumen"
+      screenOptions={{
+        headerStyle: {backgroundColor: '#2D4F6C'},
+        headerTintColor: '#ffffff',
+      }}>
+      {/* <ListStack.Screen
         name="ListScreenKonsumen"
         component={ListscreenKonsumen}
         options={{headerShown: false}}
+      /> */}
+      <ListStack.Screen
+        name="KonfirmasiSelesai"
+        component={KonfirmasiSelesai}
+        options={{headerShown: false}}
+      />
+      <ListStack.Screen
+        name="Catatan"
+        component={Catatan}
+        options={{headerShown: true}}
+      />
+      <ListStack.Screen
+        name="PembayaranKonsumen"
+        component={PembayaranKonsumen}
+        options={{headerShown: true, headerTitle: 'Pembayaran'}}
       />
     </ListStack.Navigator>
   );
