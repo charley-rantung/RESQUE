@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React, {useState} from 'react';
 import {
   StyleSheet,
@@ -6,6 +7,7 @@ import {
   TextInput,
   Modal,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import DatePicker from 'react-native-date-picker';
 
@@ -18,18 +20,38 @@ const PemesananKonsumen = ({navigation}) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [modalVisible2, setModalVisible2] = useState(false);
 
+  const Pemberitahuan = () => {
+    Alert.alert(
+      'Berhasil !',
+      'Reservasi Berhasil',
+      [
+        {
+          text: 'Lihat Reservasi',
+          onPress: () => navigation.navigate('ListScreenKonsumen'),
+        },
+        {text: 'Home', onPress: navigation.navigate('HomeScreenKonsumen')},
+      ],
+      {cancelable: false},
+    );
+  };
+
   return (
     <View style={{paddingHorizontal: 40, paddingTop: 20, alignItems: 'center'}}>
       <View style={[styles.gap, {width: 280}]}>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          }}>
-          <Text>Tanggal</Text>
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            <Text>{`${tanggal.getDate()} - ${
+        {/* Tanggal */}
+        <View>
+          <Text style={styles.title}>Tanggal</Text>
+          <View
+            style={[
+              styles.input,
+              {
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                paddingHorizontal: 5,
+              },
+            ]}>
+            <Text style={styles.title2}>{`${tanggal.getDate()} - ${
               tanggal.getMonth() + 1
             } - ${tanggal.getFullYear()}`}</Text>
             <TouchableOpacity
@@ -39,7 +61,6 @@ const PemesananKonsumen = ({navigation}) => {
             </TouchableOpacity>
           </View>
         </View>
-
         <Modal
           animationType="slide"
           visible={modalVisible}
@@ -60,24 +81,28 @@ const PemesananKonsumen = ({navigation}) => {
           </TouchableOpacity>
         </Modal>
       </View>
+
+      {/* Jam */}
       <View style={[styles.gap, {width: 280}]}>
+        <Text style={styles.title}>Jam</Text>
         <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          }}>
-          <Text>Jam</Text>
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            <Text>
-              {jam.getHours()} : {jam.getMinutes()}
-            </Text>
-            <TouchableOpacity
-              onPress={() => setModalVisible2(!modalVisible2)}
-              style={styles.button}>
-              <Text style={{color: '#ffffff', textAlign: 'center'}}>Pilih</Text>
-            </TouchableOpacity>
-          </View>
+          style={[
+            styles.input,
+            {
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              paddingHorizontal: 5,
+            },
+          ]}>
+          <Text style={styles.title2}>
+            {jam.getHours()} : {jam.getMinutes()}
+          </Text>
+          <TouchableOpacity
+            onPress={() => setModalVisible2(!modalVisible2)}
+            style={styles.button}>
+            <Text style={{color: '#ffffff', textAlign: 'center'}}>Pilih</Text>
+          </TouchableOpacity>
         </View>
 
         <Modal
@@ -100,10 +125,9 @@ const PemesananKonsumen = ({navigation}) => {
           </TouchableOpacity>
         </Modal>
       </View>
-
-      {console.log(jam)}
+      {/* Jumlah Tamu */}
       <View style={styles.gap}>
-        <Text>Jumlah Tamu</Text>
+        <Text style={styles.title}>Jumlah Tamu</Text>
         <TextInput
           style={styles.input}
           value={tamu}
@@ -111,18 +135,18 @@ const PemesananKonsumen = ({navigation}) => {
         />
       </View>
       <View style={styles.gap}>
-        <Text>Permintaan Menu</Text>
+        <Text style={styles.title}>Permintaan Menu</Text>
         <TextInput style={styles.input} value={menu} />
       </View>
       <View style={styles.gap}>
-        <Text>Permintaan Dekorasi</Text>
+        <Text style={styles.title}>Permintaan Dekorasi</Text>
         <TextInput style={styles.input} value={dekorasi} />
       </View>
 
       <TouchableOpacity
         style={[styles.button2, {alignSelf: 'center'}]}
-        onPress={() => navigation.navigate('MenungguKonfirmasi')}>
-        <Text style={[styles.text, {color: 'white'}]}>Pilih</Text>
+        onPress={Pemberitahuan}>
+        <Text style={[styles.text, {color: 'white'}]}>Pesan</Text>
       </TouchableOpacity>
     </View>
   );
@@ -145,7 +169,7 @@ const styles = StyleSheet.create({
     elevation: 5,
     borderRadius: 5,
     justifyContent: 'center',
-    alignSelf: 'flex-end',
+    alignSelf: 'center',
     marginLeft: 5,
   },
   button2: {
@@ -160,5 +184,14 @@ const styles = StyleSheet.create({
   },
   gap: {
     marginTop: 10,
+  },
+  title: {
+    fontSize: 14,
+    fontWeight: 'bold',
+  },
+  title2: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#2D4F6C',
   },
 });

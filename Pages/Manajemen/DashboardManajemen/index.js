@@ -3,18 +3,12 @@ import {createMaterialBottomTabNavigator} from '@react-navigation/material-botto
 import {createStackNavigator} from '@react-navigation/stack';
 import {Image} from 'react-native';
 import {
-  HomescreenKonsumen,
-  DeskripsiKonsumen,
-  PemesananKonsumen,
-  PembayaranKonsumen,
-  ListscreenKonsumen,
-  MenungguKonfirmasi,
-  KonfirmasiSelesai,
-  Catatan,
-  ProfilescreenKonsumen,
-} from '../../index';
+  HomescreenManajemen,
+  ListscreenManajemen,
+  ProfilescreenManajemen,
+} from '../../index.js';
 
-const BotTab = createMaterialBottomTabNavigator();
+const Tab = createMaterialBottomTabNavigator();
 const HomeStack = createStackNavigator();
 const ListStack = createStackNavigator();
 const ProfileStack = createStackNavigator();
@@ -22,25 +16,15 @@ const ProfileStack = createStackNavigator();
 const HomestackScreen = ({navigation}) => {
   return (
     <HomeStack.Navigator
-      initialRouteName="HomeScreenKonsumen"
+      initialRouteName="HomeScreenManajemen"
       screenOptions={{
         headerStyle: {backgroundColor: '#2D4F6C'},
         headerTintColor: '#ffffff',
       }}>
       <HomeStack.Screen
-        name="HomeScreenKonsumen"
-        component={HomescreenKonsumen}
+        name="HomeScreenManajemen"
+        component={HomescreenManajemen}
         options={{headerShown: false}}
-      />
-      <HomeStack.Screen
-        name="DeskripsiKonsumen"
-        component={DeskripsiKonsumen}
-        options={{headerShown: true, headerTitle: 'Deskripsi'}}
-      />
-      <HomeStack.Screen
-        name="PemesananKonsumen"
-        component={PemesananKonsumen}
-        options={{headerShown: true, headerTitle: 'Reservasi'}}
       />
     </HomeStack.Navigator>
   );
@@ -48,50 +32,40 @@ const HomestackScreen = ({navigation}) => {
 const ListstackScreen = ({navigation}) => {
   return (
     <ListStack.Navigator
-      initialRouteName="ListScreenKonsumen"
+      initialRouteName="ListScreenManajemen"
       screenOptions={{
         headerStyle: {backgroundColor: '#2D4F6C'},
         headerTintColor: '#ffffff',
       }}>
       <ListStack.Screen
-        name="ListScreenKonsumen"
-        component={ListscreenKonsumen}
+        name="ListScreenManajemen"
+        component={ListscreenManajemen}
         options={{headerShown: false}}
-      />
-      <ListStack.Screen
-        name="Catatan"
-        component={Catatan}
-        options={{headerShown: true}}
-      />
-      <ListStack.Screen
-        name="PembayaranKonsumen"
-        component={PembayaranKonsumen}
-        options={{headerShown: true, headerTitle: 'Pembayaran'}}
       />
     </ListStack.Navigator>
   );
 };
 const ProfilestackScreen = ({navigation}) => {
   return (
-    <ProfileStack.Navigator initialRouteName="ProfileScreenKonsumen">
+    <ProfileStack.Navigator initialRouteName="ProfileScreenManajemen">
       <ProfileStack.Screen
-        name="ProfileScreenKonsumen"
-        component={ProfilescreenKonsumen}
+        name="ProfileScreenManajemen"
+        component={ProfilescreenManajemen}
         options={{headerShown: false}}
       />
     </ProfileStack.Navigator>
   );
 };
 
-const DashboardKonsumen = () => {
+const DashboardManajemen = () => {
   return (
-    <BotTab.Navigator
+    <Tab.Navigator
       initialRouteName="Home"
       inactiveColor="#e5e5e5"
       backBehavior="none"
       barStyle={{backgroundColor: '#2D4F6C'}}
       shifting={true}>
-      <BotTab.Screen
+      <Tab.Screen
         name="Home"
         component={HomestackScreen}
         options={{
@@ -104,7 +78,7 @@ const DashboardKonsumen = () => {
           ),
         }}
       />
-      <BotTab.Screen
+      <Tab.Screen
         name="List"
         component={ListstackScreen}
         options={{
@@ -117,7 +91,7 @@ const DashboardKonsumen = () => {
           ),
         }}
       />
-      <BotTab.Screen
+      <Tab.Screen
         name="Profile"
         component={ProfilestackScreen}
         options={{
@@ -130,8 +104,8 @@ const DashboardKonsumen = () => {
           ),
         }}
       />
-    </BotTab.Navigator>
+    </Tab.Navigator>
   );
 };
 
-export default DashboardKonsumen;
+export default DashboardManajemen;

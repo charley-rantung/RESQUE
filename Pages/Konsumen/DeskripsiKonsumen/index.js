@@ -26,7 +26,33 @@ const DeskripsiKonsumen = ({navigation}) => {
       </ScrollView>
       <View style={{marginHorizontal: 15, marginTop: 5}}>
         <Text style={styles.title}>Banquet Hall 1</Text>
-        <Text style={styles.deskripsi}>Paal 2</Text>
+        <View style={{flexDirection: 'row'}}>
+          <Image
+            source={require('../../../Assets/Icons/location.png')}
+            style={{height: 20, width: 20, marginRight: 5}}
+          />
+          <Text style={styles.deskripsi}>Paal 2</Text>
+        </View>
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+          }}>
+          <Text>Sertifikat CHSE</Text>
+          <TouchableOpacity
+            style={{
+              height: 30,
+              width: 50,
+              borderRadius: 5,
+              borderWidth: 1,
+              borderColor: '#797979',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+            <Text>Lihat</Text>
+          </TouchableOpacity>
+        </View>
         <View style={styles.line} />
       </View>
       <View style={{marginHorizontal: 15, marginTop: 5}}>
@@ -43,20 +69,14 @@ const DeskripsiKonsumen = ({navigation}) => {
       <View style={{marginHorizontal: 15, marginTop: 5}}>
         <Text style={styles.subtitle}>Deskripsi</Text>
         <Text style={styles.deskripsi}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris turpis
-          sagittis, elementum consequat vulputate quis mi. Consequat sed et
-          fermentum porttitor ac. At elit lorem quisque integer neque dolor
-          neque aliquam interdum. Facilisi facilisis sit mauris eget. Eget
-          scelerisque viverra erat iaculis est pretium enim. Orci, elementum
-          lorem lacus vehicula. Est metus, dolor purus lacus, netus tortor, id
-          risus. Pellentesque quam ac dignissim morbi ac lacus, facilisi lorem
-          in.{' '}
+          Alamat lengkap: Jalan A.A. Maramis, Kayu Watu, Mapanget, Kairagi Dua,
+          Kec. Mapanget, Kota Manado, Sulawesi Utara No. Telp: +62431811111
         </Text>
         <View style={styles.line} />
         <TouchableOpacity
           style={[styles.button, {alignSelf: 'center'}]}
           onPress={() => navigation.navigate('PemesananKonsumen')}>
-          <Text style={[styles.text, {color: 'white'}]}>Pilih</Text>
+          <Text style={[styles.text, {color: 'white'}]}>Lakukan Reservasi</Text>
         </TouchableOpacity>
       </View>
     </ScrollView>

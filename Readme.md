@@ -21,11 +21,23 @@
 - "@react-navigation/material-bottom-tabs": "^5.3.13"
 - "react-native-paper": "^4.7.1"
 > `npm install @react-navigation/material-bottom-tabs react-native-paper`
+#### MaterialTopTabNavigator
+- "@react-navigation/material-top-tabs": "^5.3.14"
+- "react-native-tab-view": "^2.15.2"
+> `npm install @react-navigation/material-top-tabs react-native-tab-view`
 
 ## React Native Date Picker (https://github.com/henninghall/react-native-date-picker)
 - "react-native-date-picker": "^3.2.9"
 > `npm install react-native-date-npm install react-native-date-picker`
 
+## React Native Image Picker (https://github.com/react-native-image-picker/react-native-image-picker)
+- "react-native-image-picker": "^3.2.1"
+> `npm i react-native-image-picker`
+
 ## Radio Button React Native (https://github.com/sramezani/radio-buttons-react-native)
 - "radio-buttons-react-native": "^1.0.4"
 > `npm i radio-buttons-react-native`
+
+## FIREBASE
+- "firebase": "^8.2.9"
+> `npm install firebase`

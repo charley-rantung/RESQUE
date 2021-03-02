@@ -67,7 +67,7 @@ const Card = ({navigation}) => {
 
 const HomescreenKonsumen = ({navigation}) => {
   return (
-    <ScrollView style={{flex: 1}}>
+    <ScrollView style={{flex: 1, backgroundColor: '#ffffff'}}>
       <View
         style={{
           flexDirection: 'row',
@@ -91,11 +91,11 @@ const styles = StyleSheet.create({
   Card: {
     height: 220,
     width: 165,
-    backgroundColor: '#e5e5e5',
+    backgroundColor: '#ffffff',
     marginTop: 10,
-    elevation: 10,
+    elevation: 20,
     borderWidth: 1,
-    borderColor: '#5e5e5e',
+    borderColor: '#ffffff',
     borderRadius: 5,
   },
   thumbnail: {
@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
     height: 32,
     width: 67,
     backgroundColor: '#2D4F6C',
-    elevation: 5,
+    elevation: 20,
     borderRadius: 5,
     justifyContent: 'center',
     alignItems: 'center',

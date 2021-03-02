@@ -7,6 +7,7 @@ const FirstScreen = ({navigation}) => {
       <Image
         source={require('../../Assets/Images/ResqueLogo1.png')}
         style={styles.image}
+        visible={false}
       />
       <TouchableOpacity
         style={styles.button}

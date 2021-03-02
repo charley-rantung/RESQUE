@@ -8,7 +8,7 @@ import {
   TextInput,
 } from 'react-native';
 
-const LoginManajemen = () => {
+const LoginManajemen = ({navigation}) => {
   return (
     <View style={{alignItems: 'center'}}>
       <View style={{alignItems: 'center', width: 280}}>
@@ -16,7 +16,8 @@ const LoginManajemen = () => {
           source={require('../../../Assets/Images/ResqueLogo1.png')}
           style={styles.image}
         />
-        <Text style={[styles.text, {alignSelf: 'flex-start', top: 55, opacity:0}]}>
+        <Text
+          style={[styles.text, {alignSelf: 'flex-start', top: 55, opacity: 0}]}>
           Masuk Sebagai:{' '}
         </Text>
         <TextInput
@@ -28,7 +29,9 @@ const LoginManajemen = () => {
           placeholder="Password"
           secureTextEntry={true}
         />
-        <TouchableOpacity style={[styles.button, {marginTop: 15}]}>
+        <TouchableOpacity
+          style={[styles.button, {marginTop: 15}]}
+          onPress={() => navigation.navigate('DashboardManajemen')}>
           <Text style={[styles.text, {color: 'white'}]}>Masuk</Text>
         </TouchableOpacity>
       </View>

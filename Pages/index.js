@@ -18,6 +18,10 @@ import ProfilescreenKonsumen from './Konsumen/ProfilescreenKonsumen';
 
 import LoginManajemen from './Manajemen/LoginManajemen';
 import DaftarManajemen from './Manajemen/DaftarManajemen';
+import DashboardManajemen from './Manajemen/DashboardManajemen';
+import HomescreenManajemen from './Manajemen/HomescreenManajemen';
+import ListscreenManajemen from './Manajemen/ListscreenManajemen';
+import ProfilescreenManajemen from './Manajemen/ProfilescreenManajemen';
 
 import LoginSatgas from './Satgas/LoginSatgas';
 import DaftarSatgas from './Satgas/DaftarSatgas';
@@ -37,5 +41,12 @@ export {
   ListscreenKonsumen,
   ProfilescreenKonsumen,
 };
-export {LoginManajemen, DaftarManajemen};
+export {
+  LoginManajemen,
+  DaftarManajemen,
+  DashboardManajemen,
+  HomescreenManajemen,
+  ListscreenManajemen,
+  ProfilescreenManajemen,
+};
 export {LoginSatgas, DaftarSatgas};

@@ -12,6 +12,7 @@ import {
   DashboardKonsumen,
   LoginManajemen,
   DaftarManajemen,
+  DashboardManajemen,
   LoginSatgas,
   DaftarSatgas,
 } from './Pages';
@@ -78,6 +79,11 @@ const App = () => {
           name="DaftarManajemen"
           component={DaftarManajemen}
           options={{title: 'Daftar sebagai Manajemen'}}
+        />
+        <Stack.Screen
+          name="DashboardManajemen"
+          component={DashboardManajemen}
+          options={{headerShown: false}}
         />
         {/* UI Satgas */}
         <Stack.Screen

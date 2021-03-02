@@ -23,7 +23,8 @@ const FirstScreen = ({navigation}) => {
           <Text style={[styles.text, {color: 'black'}]}>Manajemen</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={[styles.button, {backgroundColor: 'white', marginTop: 23}]} onPress={() => navigation.navigate('DaftarSatgas')}>
+          style={[styles.button, {backgroundColor: 'white', marginTop: 23}]}
+          onPress={() => navigation.navigate('DaftarSatgas')}>
           <Text style={[styles.text, {color: 'black'}]}>Satgas</Text>
         </TouchableOpacity>
       </View>
