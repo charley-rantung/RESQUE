@@ -15,6 +15,7 @@ import {
   DashboardManajemen,
   LoginSatgas,
   DaftarSatgas,
+  DashboardSatgas,
 } from './Pages';
 
 const Stack = createStackNavigator();
@@ -95,6 +96,11 @@ const App = () => {
           name="DaftarSatgas"
           component={DaftarSatgas}
           options={{title: 'Daftar sebagai Satgas'}}
+        />
+        <Stack.Screen
+          name="DashboardSatgas"
+          component={DashboardSatgas}
+          options={{headerShown: false}}
         />
       </Stack.Navigator>
     </NavigationContainer>

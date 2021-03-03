@@ -20,11 +20,17 @@ import LoginManajemen from './Manajemen/LoginManajemen';
 import DaftarManajemen from './Manajemen/DaftarManajemen';
 import DashboardManajemen from './Manajemen/DashboardManajemen';
 import HomescreenManajemen from './Manajemen/HomescreenManajemen';
+import CatatanManajemen from './Manajemen/CatatanManajemen';
 import ListscreenManajemen from './Manajemen/ListscreenManajemen';
 import ProfilescreenManajemen from './Manajemen/ProfilescreenManajemen';
 
 import LoginSatgas from './Satgas/LoginSatgas';
 import DaftarSatgas from './Satgas/DaftarSatgas';
+import DashboardSatgas from './Satgas/DashboardSatgas';
+import HomescreenSatgas from './Satgas/HomescreenSatgas';
+import DeskripsiSatgas from './Satgas/DeskripsiSatgas';
+import ListscreenSatgas from './Satgas/ListscreenSatgas';
+import ProfilescreenSatgas from './Satgas/ProfilescreenSatgas';
 
 export {Splash, FirstScreen, LoginScreen, RegistrationScreen};
 export {
@@ -46,7 +52,16 @@ export {
   DaftarManajemen,
   DashboardManajemen,
   HomescreenManajemen,
+  CatatanManajemen,
   ListscreenManajemen,
   ProfilescreenManajemen,
 };
-export {LoginSatgas, DaftarSatgas};
+export {
+  LoginSatgas,
+  DaftarSatgas,
+  DashboardSatgas,
+  HomescreenSatgas,
+  DeskripsiSatgas,
+  ListscreenSatgas,
+  ProfilescreenSatgas,
+};

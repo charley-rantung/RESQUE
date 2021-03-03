@@ -20,7 +20,7 @@ const Catatan = ({navigation}) => {
       <TouchableOpacity
         style={[styles.button, {alignSelf: 'center'}]}
         onPress={() => navigation.navigate('PembayaranKonsumen')}>
-        <Text style={[styles.text, {color: 'white'}]}>Lanjut</Text>
+        <Text style={{color: 'white'}}>Lanjut</Text>
       </TouchableOpacity>
     </View>
   );

@@ -6,16 +6,21 @@ import {
   Text,
   View,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 
 const TopTab = createMaterialTopTabNavigator();
 
-const CardAktifitas = ({navigation}) => {
+const CardMenungguPembayaran = ({navigation}) => {
+  const kontakPemesan = () => {
+    Alert.alert('Kontak', 'WA: 082312030011\nTelp: 082241328477');
+  };
+
   return (
     <View style={styles.card}>
       <View style={{width: '80%'}}>
-        <Text style={styles.textTitle}>Banquet Hall 1</Text>
+        <Text style={styles.textTitle}>--- Nama Pemesan ---</Text>
         <Text style={styles.textDesc}>14 Februari 2021</Text>
         <Text style={styles.textDesc}>15.00 WITA</Text>
         <Text style={styles.textDesc}>Permintaan Menu: </Text>
@@ -39,29 +44,29 @@ const CardAktifitas = ({navigation}) => {
             source={require('../../../Assets/Icons/alarm.png')}
             style={styles.icon}
           />
-          <Text style={styles.textDesc}>Menunggu Konfirmasi</Text>
+          <Text style={styles.textDesc}>Menunggu Pembayaran</Text>
         </View>
 
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => navigation.navigate('Catatan')}>
-          <Text style={styles.text}>Lihat Pesanan</Text>
+        <TouchableOpacity style={styles.button} onPress={kontakPemesan}>
+          <Text style={styles.text}>Hubungi Pemesan</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={[styles.button, {backgroundColor: 'white'}]}
-          onPress={() => navigation.navigate('')}>
-          <Text style={{color: '#000'}}>Batalkan</Text>
+          style={[styles.button, {backgroundColor: '#207868'}]}
+          onPress={() => navigation.navigate('CatatanManajemen')}>
+          <Text style={styles.text}>Terima</Text>
         </TouchableOpacity>
       </View>
     </View>
   );
 };
-const AktifitasKonsumen = ({navigation}) => {
+
+const MenungguPembayaran = ({navigation}) => {
   return (
     <ScrollView>
       <View style={{alignItems: 'center', marginTop: 20}}>
-        <CardAktifitas navigation={navigation} />
-        <CardAktifitas navigation={navigation} />
+        <CardMenungguPembayaran navigation={navigation} />
+        <CardMenungguPembayaran navigation={navigation} />
+        <Text>Halo1</Text>
       </View>
     </ScrollView>
   );
@@ -71,7 +76,7 @@ const CardRiwayat = ({navigation}) => {
   return (
     <View style={styles.card}>
       <View style={{width: '80%'}}>
-        <Text style={styles.textTitle}>Banquet Hall 1</Text>
+        <Text style={styles.textTitle}>--- Nama Pemesan ---</Text>
         <Text style={styles.textDesc}>14 Februari 2021</Text>
         <Text style={styles.textDesc}>15.00 WITA</Text>
         <Text style={styles.textDesc}>Permintaan Menu: </Text>
@@ -107,21 +112,23 @@ const CardRiwayat = ({navigation}) => {
     </View>
   );
 };
-const RiwayatKonsumen = ({navigation}) => {
+
+const Selesai = ({navigation}) => {
   return (
     <ScrollView>
       <View style={{alignItems: 'center', marginTop: 20}}>
         <CardRiwayat navigation={navigation} />
         <CardRiwayat navigation={navigation} />
+        <Text>Halo</Text>
       </View>
     </ScrollView>
   );
 };
 
-const ListscreenKonsumen = ({navigation}) => {
+const ListscreenSatgas = ({navigation}) => {
   return (
     <TopTab.Navigator
-      initialRouteName="AktifitasKonsumen"
+      initialRouteName="MenungguPembayaran"
       tabBarOptions={{
         activeTintColor: '#fff',
         inactiveTintColor: '#a7a7a7',
@@ -130,13 +137,17 @@ const ListscreenKonsumen = ({navigation}) => {
         style: {backgroundColor: '#2D4F6C'},
         indicatorStyle: {backgroundColor: '#fff'},
       }}>
-      <TopTab.Screen name="AktifitasKonsumen" component={AktifitasKonsumen} />
-      <TopTab.Screen name="RiwayatKonsumen" component={RiwayatKonsumen} />
+      <TopTab.Screen
+        name="MenungguPembayaran"
+        component={MenungguPembayaran}
+        options={{title: 'Menunggu Pembayaran'}}
+      />
+      <TopTab.Screen name="Selesai" component={Selesai} />
     </TopTab.Navigator>
   );
 };
 
-export default ListscreenKonsumen;
+export default ListscreenSatgas;
 
 const styles = StyleSheet.create({
   card: {

@@ -8,8 +8,6 @@ import {
   PemesananKonsumen,
   PembayaranKonsumen,
   ListscreenKonsumen,
-  MenungguKonfirmasi,
-  KonfirmasiSelesai,
   Catatan,
   ProfilescreenKonsumen,
 } from '../../index';
@@ -87,7 +85,8 @@ const DashboardKonsumen = () => {
   return (
     <BotTab.Navigator
       initialRouteName="Home"
-      inactiveColor="#e5e5e5"
+      inactiveColor="#a7a7a7"
+      activeColor="#fff"
       backBehavior="none"
       barStyle={{backgroundColor: '#2D4F6C'}}
       shifting={true}>

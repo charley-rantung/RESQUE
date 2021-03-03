@@ -3,10 +3,10 @@ import {createMaterialBottomTabNavigator} from '@react-navigation/material-botto
 import {createStackNavigator} from '@react-navigation/stack';
 import {Image} from 'react-native';
 import {
-  HomescreenManajemen,
-  CatatanManajemen,
-  ListscreenManajemen,
-  ProfilescreenManajemen,
+  HomescreenSatgas,
+  DeskripsiSatgas,
+  ListscreenSatgas,
+  ProfilescreenSatgas,
 } from '../../index.js';
 
 const Tab = createMaterialBottomTabNavigator();
@@ -17,20 +17,20 @@ const ProfileStack = createStackNavigator();
 const HomestackScreen = ({navigation}) => {
   return (
     <HomeStack.Navigator
-      initialRouteName="HomeScreenManajemen"
+      initialRouteName="HomeScreenSatgas"
       screenOptions={{
         headerStyle: {backgroundColor: '#2D4F6C'},
         headerTintColor: '#ffffff',
       }}>
       <HomeStack.Screen
-        name="HomeScreenManajemen"
-        component={HomescreenManajemen}
+        name="HomeScreenSatgas"
+        component={HomescreenSatgas}
         options={{headerShown: false}}
       />
       <HomeStack.Screen
-        name="CatatanManajemen"
-        component={CatatanManajemen}
-        options={{title: 'Berikan Catatan'}}
+        name="DeskripsiSatgas"
+        component={DeskripsiSatgas}
+        options={{title: 'Deskripsi'}}
       />
     </HomeStack.Navigator>
   );
@@ -38,14 +38,14 @@ const HomestackScreen = ({navigation}) => {
 const ListstackScreen = ({navigation}) => {
   return (
     <ListStack.Navigator
-      initialRouteName="ListScreenManajemen"
+      initialRouteName="ListScreenSatgas"
       screenOptions={{
         headerStyle: {backgroundColor: '#2D4F6C'},
         headerTintColor: '#ffffff',
       }}>
       <ListStack.Screen
-        name="ListScreenManajemen"
-        component={ListscreenManajemen}
+        name="ListScreenSatgas"
+        component={ListscreenSatgas}
         options={{headerShown: false}}
       />
     </ListStack.Navigator>
@@ -53,17 +53,17 @@ const ListstackScreen = ({navigation}) => {
 };
 const ProfilestackScreen = ({navigation}) => {
   return (
-    <ProfileStack.Navigator initialRouteName="ProfileScreenManajemen">
+    <ProfileStack.Navigator initialRouteName="ProfileScreenSatgas">
       <ProfileStack.Screen
-        name="ProfileScreenManajemen"
-        component={ProfilescreenManajemen}
+        name="ProfileScreenSatgas"
+        component={ProfilescreenSatgas}
         options={{headerShown: false}}
       />
     </ProfileStack.Navigator>
   );
 };
 
-const DashboardManajemen = () => {
+const DashboardSatgas = () => {
   return (
     <Tab.Navigator
       initialRouteName="Home"
@@ -113,5 +113,4 @@ const DashboardManajemen = () => {
     </Tab.Navigator>
   );
 };
-
-export default DashboardManajemen;
+export default DashboardSatgas;

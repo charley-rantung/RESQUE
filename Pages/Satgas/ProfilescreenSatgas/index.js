@@ -1,7 +1,7 @@
 import React from 'react';
 import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
 
-const ProfilescreenKonsumen = ({navigation}) => {
+const ProfilescreenSatgas = ({navigation}) => {
   return (
     <View>
       <View
@@ -57,7 +57,7 @@ const ProfilescreenKonsumen = ({navigation}) => {
   );
 };
 
-export default ProfilescreenKonsumen;
+export default ProfilescreenSatgas;
 
 const styles = StyleSheet.create({
   profil: {

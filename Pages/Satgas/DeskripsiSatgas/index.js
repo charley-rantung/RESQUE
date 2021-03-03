@@ -7,10 +7,20 @@ import {
   Text,
   View,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 const {width} = Dimensions.get('window');
 
-const DeskripsiKonsumen = ({navigation}) => {
+const DeskripsiSatgas = ({navigation}) => {
+  const btnVerifikasi = () => {
+    Alert.alert('Sukses', 'Banquet Hall berhasil di Verifikasi', [
+      {
+        text: 'OK',
+        onPress: () => navigation.navigate('HomeScreenSatgas'),
+      },
+    ]);
+  };
+
   return (
     <ScrollView style={{width: '100%'}}>
       {/* Album Scroll */}
@@ -33,7 +43,7 @@ const DeskripsiKonsumen = ({navigation}) => {
           />
           <Text style={styles.deskripsi}>Paal 2</Text>
         </View>
-        {/* <View
+        <View
           style={{
             flexDirection: 'row',
             alignItems: 'center',
@@ -52,7 +62,7 @@ const DeskripsiKonsumen = ({navigation}) => {
             }}>
             <Text>Lihat</Text>
           </TouchableOpacity>
-        </View> */}
+        </View>
         <View style={styles.line} />
       </View>
       <View style={{marginHorizontal: 15, marginTop: 5}}>
@@ -75,15 +85,15 @@ const DeskripsiKonsumen = ({navigation}) => {
         <View style={styles.line} />
         <TouchableOpacity
           style={[styles.button, {alignSelf: 'center'}]}
-          onPress={() => navigation.navigate('PemesananKonsumen')}>
-          <Text style={[styles.text, {color: 'white'}]}>Lakukan Reservasi</Text>
+          onPress={btnVerifikasi}>
+          <Text style={[styles.text, {color: 'white'}]}>Verifikasi</Text>
         </TouchableOpacity>
       </View>
     </ScrollView>
   );
 };
 
-export default DeskripsiKonsumen;
+export default DeskripsiSatgas;
 
 const styles = StyleSheet.create({
   album: {

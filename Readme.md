@@ -31,8 +31,8 @@
 > `npm install react-native-date-npm install react-native-date-picker`
 
 ## React Native Image Picker (https://github.com/react-native-image-picker/react-native-image-picker)
-- "react-native-image-picker": "^3.2.1"
-> `npm i react-native-image-picker`
+- "react-native-image-picker": "^2.3.4"
+> `npm i react-native-image-picker@2.3.4`
 
 ## Radio Button React Native (https://github.com/sramezani/radio-buttons-react-native)
 - "radio-buttons-react-native": "^1.0.4"

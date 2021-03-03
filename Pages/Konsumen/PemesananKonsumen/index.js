@@ -14,9 +14,9 @@ import DatePicker from 'react-native-date-picker';
 const PemesananKonsumen = ({navigation}) => {
   const [tanggal, setTanggal] = useState(new Date());
   const [jam, setJam] = useState(new Date());
-  const [tamu, setTamu] = useState(0);
-  const [menu, setMenu] = useState(0);
-  const [dekorasi, setDekorasi] = useState(0);
+  const [tamu, setTamu] = useState('');
+  const [menu, setMenu] = useState('');
+  const [dekorasi, setDekorasi] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
   const [modalVisible2, setModalVisible2] = useState(false);
 
@@ -26,10 +26,13 @@ const PemesananKonsumen = ({navigation}) => {
       'Reservasi Berhasil',
       [
         {
-          text: 'Lihat Reservasi',
-          onPress: () => navigation.navigate('ListScreenKonsumen'),
+          text: 'Home',
+          onPress: () => navigation.navigate('HomeScreenKonsumen'),
         },
-        {text: 'Home', onPress: navigation.navigate('HomeScreenKonsumen')},
+        {
+          text: 'Lihat Reservasi',
+          onPress: () => navigation.navigate('List'),
+        },
       ],
       {cancelable: false},
     );
@@ -134,13 +137,23 @@ const PemesananKonsumen = ({navigation}) => {
           onChangeText={(jumTamu) => setTamu(jumTamu)}
         />
       </View>
+      {/* Menu */}
       <View style={styles.gap}>
         <Text style={styles.title}>Permintaan Menu</Text>
-        <TextInput style={styles.input} value={menu} />
+        <TextInput
+          style={styles.input}
+          value={menu}
+          onChangeText={(Menu) => setMenu(Menu)}
+        />
       </View>
+      {/* Dekorasi */}
       <View style={styles.gap}>
         <Text style={styles.title}>Permintaan Dekorasi</Text>
-        <TextInput style={styles.input} value={dekorasi} />
+        <TextInput
+          style={styles.input}
+          value={dekorasi}
+          onChangeText={(Dekor) => setDekorasi(Dekor)}
+        />
       </View>
 
       <TouchableOpacity
