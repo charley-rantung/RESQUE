@@ -13,9 +13,7 @@ import {
 import ImagePicker from 'react-native-image-picker';
 
 const CatatanManajemen = ({navigation}) => {
-  const [gambar, setGambar] = useState(
-    'require (../../../Assets/Images/camera.jpg)',
-  );
+  const [gambar, setGambar] = useState(null);
   const options = {};
   const handlingPhoto = () => {
     ImagePicker.launchImageLibrary(options, (response) => {
@@ -45,6 +43,13 @@ const CatatanManajemen = ({navigation}) => {
       },
     ]);
   };
+
+  const checkImage = () => {
+    if (gambar != null) {
+      return <Image source={{uri: gambar}} style={{height: 400, width: 400}} />;
+    }
+  };
+
   return (
     <ScrollView>
       <View style={{flex: 1, paddingHorizontal: 20}}>
@@ -66,10 +71,11 @@ const CatatanManajemen = ({navigation}) => {
             Upload Catatan
           </Text>
         </TouchableOpacity>
-        <Image
+        {/* <Image
           source={require('../../../Assets/Images/camera.jpg')}
           style={{height: 400, width: 400}}
-        />
+        /> */}
+        {checkImage()}
 
         <Text style={styles.teks2}>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris turpis

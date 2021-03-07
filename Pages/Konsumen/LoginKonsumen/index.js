@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -6,9 +6,37 @@ import {
   Image,
   TouchableOpacity,
   TextInput,
+  Alert,
 } from 'react-native';
+import firebase from '../../../Config/FIREBASE';
 
 const LoginKonsumen = ({navigation}) => {
+  const [email, setEmail] = useState('');
+  const [password, setPass] = useState('');
+
+  const onPressMasuk = () => {
+    console.log(email, password);
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(email, password)
+      .then((userCredential) => {
+        // Signed in
+        var user = userCredential.user;
+        console.log(user);
+        Alert.alert('Sukses', 'Berhasil Masuk', [
+          {
+            text: 'Ke halaman utama',
+            onPress: () => navigation.navigate('DashboardKonsumen'),
+          },
+        ]);
+        // ...
+      })
+      .catch((error) => {
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        Alert.alert('Error', errorCode + errorMessage);
+      });
+  };
   return (
     <View style={{alignItems: 'center'}}>
       <View style={{alignItems: 'center', width: 280}}>
@@ -23,15 +51,17 @@ const LoginKonsumen = ({navigation}) => {
         <TextInput
           style={[styles.textInput, {marginTop: 63}]}
           placeholder="Email"
+          onChangeText={(resp) => setEmail(resp)}
         />
         <TextInput
           style={[styles.textInput, {marginTop: 15}]}
           placeholder="Password"
           secureTextEntry={true}
+          onChangeText={(resp) => setPass(resp)}
         />
         <TouchableOpacity
           style={[styles.button, {marginTop: 15}]}
-          onPress={() => navigation.navigate('DashboardKonsumen')}>
+          onPress={onPressMasuk}>
           <Text style={[styles.text, {color: 'white'}]}>Masuk</Text>
         </TouchableOpacity>
       </View>

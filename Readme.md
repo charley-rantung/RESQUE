@@ -41,3 +41,11 @@
 ## FIREBASE
 - "firebase": "^8.2.9"
 > `npm install firebase`
+
+## Redux
+- "redux": "^4.0.5"
+> `npm install redux`
+
+## React Redux
+- "react-redux": "^7.2.2"
+> `npm install react-redux`

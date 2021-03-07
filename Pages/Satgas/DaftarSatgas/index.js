@@ -6,9 +6,11 @@ import {
   TextInput,
   Modal,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import RadioButtonRN from 'radio-buttons-react-native';
 import DatePicker from 'react-native-date-picker';
+import firebase from '../../../Config/FIREBASE';
 
 const DaftarSatgas = ({navigation}) => {
   const [nama, setNama] = useState(0);
@@ -16,9 +18,33 @@ const DaftarSatgas = ({navigation}) => {
   const [tl, setTl] = useState(new Date());
   const [email, setEmail] = useState(0);
   const [nohp, setNohp] = useState(0);
-  const [pass, setPass] = useState(0);
+  const [password, setPass] = useState(0);
   const [data, setData] = useState([{label: 'Pria'}, {label: 'Wanita'}]);
   const [modalVisible, setModalVisible] = useState(false);
+
+  const onPressDaftar = () => {
+    console.log(email, password);
+    firebase
+      .auth()
+      .createUserWithEmailAndPassword(email, password)
+      .then((userCredential) => {
+        // Signed in
+        var user = userCredential.user;
+        console.log(user);
+        Alert.alert('Sukses', 'Berhasil Mendaftar', [
+          {
+            text: 'Ke halaman utama',
+            onPress: () => navigation.navigate('DashboardSatgas'),
+          },
+        ]);
+        // ...
+      })
+      .catch((error) => {
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        Alert.alert('Error', errorCode + errorMessage);
+      });
+  };
 
   return (
     <View style={{paddingHorizontal: 40, paddingTop: 20, alignItems: 'center'}}>
@@ -76,7 +102,11 @@ const DaftarSatgas = ({navigation}) => {
       </View>
       <View style={styles.gap}>
         <Text>Email</Text>
-        <TextInput style={styles.input} value={email} />
+        <TextInput
+          style={styles.input}
+          value={email}
+          onChangeText={(resp) => setEmail(resp)}
+        />
       </View>
       <View style={styles.gap}>
         <Text>No. HP</Text>
@@ -84,12 +114,16 @@ const DaftarSatgas = ({navigation}) => {
       </View>
       <View style={styles.gap}>
         <Text>Password</Text>
-        <TextInput style={styles.input} value={pass} />
+        <TextInput
+          style={styles.input}
+          value={password}
+          onChangeText={(resp) => setPass(resp)}
+        />
       </View>
 
       <TouchableOpacity
         style={[styles.button2, {alignSelf: 'center'}]}
-        onPress={() => navigation.navigate('DashboardSatgas')}>
+        onPress={onPressDaftar}>
         <Text style={[styles.text, {color: 'white'}]}>Daftar</Text>
       </TouchableOpacity>
     </View>
