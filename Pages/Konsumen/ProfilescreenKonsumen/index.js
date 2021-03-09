@@ -1,7 +1,40 @@
-import React from 'react';
-import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable react-native/no-inline-styles */
+import React, {useState, useEffect} from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+  Alert,
+} from 'react-native';
+import firebase from '../../../Config/firebase';
+import {useDispatch, useSelector} from 'react-redux';
 
 const ProfilescreenKonsumen = ({navigation}) => {
+  const globalState = useSelector((state) => state);
+  const dispatch = useDispatch();
+  const [user, setUser] = useState({});
+  useEffect(() => {
+    firebase
+      .database()
+      .ref('akunKonsumen/' + globalState.uid)
+      .on('value', (snapshot) => {
+        setUser(snapshot.val());
+      });
+  }, []);
+  const onPressProfil = () => {
+    Alert.alert(
+      'Profil',
+      `Nama Lengkap: ${user.nama} \nEmail: ${user.email} \nNo. Telp: ${user.noTelp}`,
+    );
+  };
+
+  const onPressKeluar = () => {
+    dispatch({type: 'SET_UID', value: null});
+    navigation.navigate('FirstScreen');
+  };
   return (
     <View>
       <View
@@ -30,7 +63,8 @@ const ProfilescreenKonsumen = ({navigation}) => {
               flexDirection: 'row',
               alignItems: 'center',
               justifyContent: 'space-between',
-            }}>
+            }}
+            onPress={onPressProfil}>
             <Text style={styles.teksNama}>Profil</Text>
             <Image
               source={require('../../../Assets/Icons/right.png')}
@@ -44,7 +78,8 @@ const ProfilescreenKonsumen = ({navigation}) => {
               flexDirection: 'row',
               alignItems: 'center',
               justifyContent: 'space-between',
-            }}>
+            }}
+            onPress={onPressKeluar}>
             <Text style={styles.teksNama}>Keluar</Text>
             <Image
               source={require('../../../Assets/Icons/right.png')}

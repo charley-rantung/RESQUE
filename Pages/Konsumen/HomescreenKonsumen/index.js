@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import {
   ScrollView,
@@ -7,6 +8,7 @@ import {
   Image,
   TouchableOpacity,
 } from 'react-native';
+import {useSelector} from 'react-redux';
 
 const Card = ({navigation}) => {
   return (
@@ -66,6 +68,7 @@ const Card = ({navigation}) => {
 };
 
 const HomescreenKonsumen = ({navigation}) => {
+  const globalState = useSelector((state) => state);
   return (
     <ScrollView style={{flex: 1, backgroundColor: '#ffffff'}}>
       <View

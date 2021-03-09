@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   StyleSheet,
   Text,
@@ -9,33 +9,48 @@ import {
   TextInput,
   Alert,
 } from 'react-native';
-import firebase from '../../../Config/FIREBASE';
+import firebase from '../../../Config/firebase';
+import {useDispatch, useSelector} from 'react-redux';
 
 const LoginSatgas = ({navigation}) => {
+  const globalState = useSelector((state) => state);
+  const dispatch = useDispatch();
   const [email, setEmail] = useState('');
   const [password, setPass] = useState('');
+  useEffect(() => {
+    console.log('Dari useEffect', globalState.uid);
+  }, [globalState]);
 
   const onPressMasuk = () => {
     console.log(email, password);
     firebase
       .auth()
       .signInWithEmailAndPassword(email, password)
-      .then((userCredential) => {
-        // Signed in
-        var user = userCredential.user;
-        console.log(user);
-        Alert.alert('Sukses', 'Berhasil Masuk', [
-          {
-            text: 'Ke halaman utama',
-            onPress: () => navigation.navigate('DashboardSatgas'),
-          },
-        ]);
-        // ...
+      .then((resp) => {
+        dispatch({type: 'SET_UID', value: resp.user.uid});
+        console.log('dari respon api:', resp.user.uid);
+        firebase
+          .database()
+          .ref('akunSatgas/' + resp.user.uid)
+          .on('value', (snapshot) => {
+            console.log('isi snapshot', snapshot.val());
+            if (snapshot.val()) {
+              Alert.alert('Sukses', 'Berhasil Masuk', [
+                {
+                  text: 'Ke halaman utama',
+                  onPress: () => navigation.navigate('DashboardSatgas'),
+                },
+              ]);
+            } else {
+              Alert.alert('Gagal', 'Email ini tidak terdaftar sebagai Satgas');
+              dispatch({type: 'SET_UID', value: snapshot.val()});
+            }
+          });
       })
       .catch((error) => {
         var errorCode = error.code;
         var errorMessage = error.message;
-        Alert.alert('Error', errorCode + errorMessage);
+        Alert.alert('Kesalahan', errorCode + errorMessage);
       });
   };
   return (

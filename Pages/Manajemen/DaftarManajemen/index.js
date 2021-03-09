@@ -1,4 +1,5 @@
-import React, {useState} from 'react';
+/* eslint-disable react-native/no-inline-styles */
+import React, {useState, useEffect} from 'react';
 import {
   StyleSheet,
   Text,
@@ -10,9 +11,12 @@ import {
 } from 'react-native';
 import RadioButtonRN from 'radio-buttons-react-native';
 import DatePicker from 'react-native-date-picker';
-import firebase from '../../../Config/FIREBASE';
+import firebase from '../../../Config/firebase';
+import {useDispatch, useSelector} from 'react-redux';
 
 const DaftarManajemen = ({navigation}) => {
+  const globalState = useSelector((state) => state);
+  const dispatch = useDispatch();
   const [nama, setNama] = useState(0);
   const [jk, setJk] = useState('Pria');
   const [tl, setTl] = useState(new Date());
@@ -21,36 +25,57 @@ const DaftarManajemen = ({navigation}) => {
   const [password, setPass] = useState(0);
   const [data, setData] = useState([{label: 'Pria'}, {label: 'Wanita'}]);
   const [modalVisible, setModalVisible] = useState(false);
+  useEffect(() => {
+    console.log('Dari useeffect', globalState);
+  }, [globalState]);
 
   const onPressDaftar = () => {
+    if (nama) {
+      if (nohp) {
+        firebase
+          .auth()
+          .createUserWithEmailAndPassword(email, password)
+          .then((resp) => {
+            dispatch({type: 'SET_UID', value: resp.user.uid});
+            console.log('dari respon api:', resp.user.uid);
+            Alert.alert('Sukses', 'Berhasil Mendaftar', [
+              {
+                text: 'Ke halaman utama',
+                onPress: () => navigation.navigate('DashboardManajemen'),
+              },
+            ]);
+            firebase
+              .database()
+              .ref('akunManajemen/' + resp.user.uid)
+              .set({
+                nama: nama,
+                noTelp: nohp,
+                email: email,
+              });
+          })
+          .catch((error) => {
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            Alert.alert('Error', errorCode + errorMessage);
+          });
+      } else {
+        Alert.alert('Perhatian', 'Masukan nomor telepon!');
+      }
+    } else {
+      Alert.alert('Perhatian', 'Masukan nama lengkap!');
+    }
     console.log(email, password);
-    firebase
-      .auth()
-      .createUserWithEmailAndPassword(email, password)
-      .then((userCredential) => {
-        // Signed in
-        var user = userCredential.user;
-        console.log(user);
-        Alert.alert('Sukses', 'Berhasil Mendaftar', [
-          {
-            text: 'Ke halaman utama',
-            onPress: () => navigation.navigate('DashboardManajemen'),
-          },
-        ]);
-        // ...
-      })
-      .catch((error) => {
-        var errorCode = error.code;
-        var errorMessage = error.message;
-        Alert.alert('Error', errorCode + errorMessage);
-      });
   };
 
   return (
     <View style={{paddingHorizontal: 40, paddingTop: 20, alignItems: 'center'}}>
       <View style={styles.gap}>
         <Text>Nama Lengkap Pemilik</Text>
-        <TextInput style={styles.input} value={nama} />
+        <TextInput
+          style={styles.input}
+          value={nama}
+          onChangeText={(resp) => setNama(resp)}
+        />
       </View>
       <View style={styles.gap}>
         <Text>Jenis Kelamin</Text>
@@ -110,13 +135,18 @@ const DaftarManajemen = ({navigation}) => {
       </View>
       <View style={styles.gap}>
         <Text>No. HP Pemilik</Text>
-        <TextInput style={styles.input} value={nohp} />
+        <TextInput
+          style={styles.input}
+          value={nohp}
+          onChangeText={(resp) => setNohp(resp)}
+        />
       </View>
       <View style={styles.gap}>
         <Text>Password</Text>
         <TextInput
           style={styles.input}
           value={password}
+          secureTextEntry={true}
           onChangeText={(resp) => setPass(resp)}
         />
       </View>

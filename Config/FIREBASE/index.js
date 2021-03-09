@@ -1,6 +1,6 @@
 import firebase from 'firebase';
 
-var firebaseConfig = {
+const firebaseConfig = {
   apiKey: 'AIzaSyCi8mUhUpWHvnjaqOFZtMLP3uhz1NQhXyc',
   authDomain: 'resque-01.firebaseapp.com',
   projectId: 'resque-01',
@@ -12,6 +12,6 @@ var firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
-const FIREBASE = firebase;
+export const database = firebase.database();
 
-export default FIREBASE;
+export default firebase;
