@@ -3,6 +3,7 @@ import firebase from 'firebase';
 const firebaseConfig = {
   apiKey: 'AIzaSyCi8mUhUpWHvnjaqOFZtMLP3uhz1NQhXyc',
   authDomain: 'resque-01.firebaseapp.com',
+  databaseURL: 'https://resque-01-default-rtdb.firebaseio.com',
   projectId: 'resque-01',
   storageBucket: 'resque-01.appspot.com',
   messagingSenderId: '759045270031',
@@ -11,7 +12,5 @@ const firebaseConfig = {
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
-
-export const database = firebase.database();
 
 export default firebase;

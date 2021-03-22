@@ -1,7 +1,7 @@
 import React from 'react';
 import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
 
-const ProfilescreenKonsumen = ({navigation}) => {
+const ProfilescreenManajemen = ({navigation}) => {
   return (
     <View>
       <View
@@ -23,21 +23,27 @@ const ProfilescreenKonsumen = ({navigation}) => {
           <Text style={styles.teksNama}>---Nama Banquet---</Text>
         </View>
         <View>
-          <TouchableOpacity style={styles.menu}>
+          <TouchableOpacity
+            style={styles.menu}
+            onPress={() => navigation.navigate('ProfilTab')}>
             <Text style={styles.teksNama}>Profil</Text>
             <Image
               source={require('../../../Assets/Icons/right.png')}
               style={{height: 20, width: 20}}
             />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.menu}>
+          <TouchableOpacity
+            style={styles.menu}
+            onPress={() => navigation.navigate('SertifikatTab')}>
             <Text style={styles.teksNama}>Sertifikat CHSE</Text>
             <Image
               source={require('../../../Assets/Icons/right.png')}
               style={{height: 20, width: 20}}
             />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.menu}>
+          <TouchableOpacity
+            style={styles.menu}
+            onPress={() => navigation.navigate('DataUsahaTab')}>
             <Text style={styles.teksNama}>Data Usaha</Text>
             <Image
               source={require('../../../Assets/Icons/right.png')}
@@ -57,7 +63,7 @@ const ProfilescreenKonsumen = ({navigation}) => {
   );
 };
 
-export default ProfilescreenKonsumen;
+export default ProfilescreenManajemen;
 
 const styles = StyleSheet.create({
   profil: {

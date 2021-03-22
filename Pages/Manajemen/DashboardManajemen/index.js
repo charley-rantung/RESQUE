@@ -7,6 +7,9 @@ import {
   CatatanManajemen,
   ListscreenManajemen,
   ProfilescreenManajemen,
+  ProfilTab,
+  SertifikatTab,
+  DataUsahaTab,
 } from '../../index.js';
 
 const Tab = createMaterialBottomTabNavigator();
@@ -53,11 +56,31 @@ const ListstackScreen = ({navigation}) => {
 };
 const ProfilestackScreen = ({navigation}) => {
   return (
-    <ProfileStack.Navigator initialRouteName="ProfileScreenManajemen">
+    <ProfileStack.Navigator
+      initialRouteName="ProfileScreenManajemen"
+      screenOptions={{
+        headerStyle: {backgroundColor: '#2D4F6C'},
+        headerTintColor: '#ffffff',
+      }}>
       <ProfileStack.Screen
         name="ProfileScreenManajemen"
         component={ProfilescreenManajemen}
         options={{headerShown: false}}
+      />
+      <ProfileStack.Screen
+        name="ProfilTab"
+        component={ProfilTab}
+        options={{title: 'Profil'}}
+      />
+      <ProfileStack.Screen
+        name="SertifikatTab"
+        component={SertifikatTab}
+        options={{title: 'CHSE'}}
+      />
+      <ProfileStack.Screen
+        name="DataUsahaTab"
+        component={DataUsahaTab}
+        options={{title: 'Lengkapi Data Usaha'}}
       />
     </ProfileStack.Navigator>
   );

@@ -23,6 +23,9 @@ import HomescreenManajemen from './Manajemen/HomescreenManajemen';
 import CatatanManajemen from './Manajemen/CatatanManajemen';
 import ListscreenManajemen from './Manajemen/ListscreenManajemen';
 import ProfilescreenManajemen from './Manajemen/ProfilescreenManajemen';
+import ProfilTab from './Manajemen/ProfilTab';
+import SertifikatTab from './Manajemen/SertifikatTab';
+import DataUsahaTab from './Manajemen/DataUsahaTab';
 
 import LoginSatgas from './Satgas/LoginSatgas';
 import DaftarSatgas from './Satgas/DaftarSatgas';
@@ -55,6 +58,9 @@ export {
   CatatanManajemen,
   ListscreenManajemen,
   ProfilescreenManajemen,
+  ProfilTab,
+  SertifikatTab,
+  DataUsahaTab,
 };
 export {
   LoginSatgas,

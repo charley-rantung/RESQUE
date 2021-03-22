@@ -16,24 +16,21 @@ const LoginManajemen = ({navigation}) => {
   const dispatch = useDispatch();
   const [email, setEmail] = useState('');
   const [password, setPass] = useState('');
-  useEffect(() => {
-    console.log('Dari useEffect', globalState.uid);
-  }, [globalState]);
 
   const onPressMasuk = () => {
-    console.log(email, password);
+    console.log(email, password); //=========== 1
     firebase
       .auth()
       .signInWithEmailAndPassword(email, password)
       .then((resp) => {
+        console.log(resp); //===========2
         dispatch({type: 'SET_UID', value: resp.user.uid});
-        console.log('dari respon api:', resp.user.uid);
         firebase
           .database()
           .ref('akunManajemen/' + resp.user.uid)
-          .on('value', (snapshot) => {
-            console.log('isi snapshot', snapshot.val());
-            if (snapshot.val()) {
+          .get()
+          .then((snapshot) => {
+            if (snapshot.exists()) {
               Alert.alert('Sukses', 'Berhasil Masuk', [
                 {
                   text: 'Ke halaman utama',

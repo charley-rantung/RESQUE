@@ -51,6 +51,23 @@ const DaftarManajemen = ({navigation}) => {
                 nama: nama,
                 noTelp: nohp,
                 email: email,
+                namaBanquet: '',
+                lokasiBanquet: '',
+                noTelpBanquet: 0,
+                operasionalBanquet: '',
+                kapasitasBanquet: 0,
+                hargaMinBanquet: 0,
+                gambarBanquet: null,
+                paketBanquet: '',
+                noRekBanquet: {
+                  bni: 0,
+                  bri: 0,
+                  mandiri: 0,
+                  bca: 0,
+                },
+                deskripsiBanquet: '',
+                chseBase64: '',
+                verified: false,
               });
           })
           .catch((error) => {
