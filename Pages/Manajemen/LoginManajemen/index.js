@@ -18,12 +18,12 @@ const LoginManajemen = ({navigation}) => {
   const [password, setPass] = useState('');
 
   const onPressMasuk = () => {
-    console.log(email, password); //=========== 1
+    console.log(email, password);
     firebase
       .auth()
       .signInWithEmailAndPassword(email, password)
       .then((resp) => {
-        console.log(resp); //===========2
+        console.log(resp.user.id);
         dispatch({type: 'SET_UID', value: resp.user.uid});
         firebase
           .database()
@@ -49,7 +49,7 @@ const LoginManajemen = ({navigation}) => {
       .catch((error) => {
         var errorCode = error.code;
         var errorMessage = error.message;
-        Alert.alert('Kesalahan', errorCode + errorMessage);
+        Alert.alert(errorCode, errorMessage);
       });
   };
   return (

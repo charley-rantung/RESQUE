@@ -27,14 +27,14 @@ const ProfilTab = ({navigation}) => {
       .then((snapshot) => {
         if (snapshot.exists()) {
           setUserData(snapshot.val());
-          console.log('userData', userData);
         }
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [globalState.uid]);
+  }, []);
   return (
     <ScrollView style={{width: '100%'}}>
       {/* Album Scroll */}
+      {console.log(userData)}
       <ScrollView horizontal pagingEnabled style={{width: '100%'}}>
         <Image
           source={require('../../../Assets/Images/banquet1.jpg')}

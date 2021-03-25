@@ -17,9 +17,6 @@ const LoginSatgas = ({navigation}) => {
   const dispatch = useDispatch();
   const [email, setEmail] = useState('');
   const [password, setPass] = useState('');
-  useEffect(() => {
-    console.log('Dari useEffect', globalState.uid);
-  }, [globalState]);
 
   const onPressMasuk = () => {
     console.log(email, password);
@@ -27,14 +24,14 @@ const LoginSatgas = ({navigation}) => {
       .auth()
       .signInWithEmailAndPassword(email, password)
       .then((resp) => {
-        dispatch({type: 'SET_UID', value: resp.user.uid});
         console.log('dari respon api:', resp.user.uid);
+        dispatch({type: 'SET_UID', value: resp.user.uid});
         firebase
           .database()
           .ref('akunSatgas/' + resp.user.uid)
-          .on('value', (snapshot) => {
-            console.log('isi snapshot', snapshot.val());
-            if (snapshot.val()) {
+          .get()
+          .then((snapshot) => {
+            if (snapshot.exists()) {
               Alert.alert('Sukses', 'Berhasil Masuk', [
                 {
                   text: 'Ke halaman utama',

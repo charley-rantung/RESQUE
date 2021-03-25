@@ -32,8 +32,16 @@ const ProfilescreenKonsumen = ({navigation}) => {
   };
 
   const onPressKeluar = () => {
-    dispatch({type: 'SET_UID', value: null});
-    navigation.navigate('FirstScreen');
+    firebase
+      .auth()
+      .signOut()
+      .then(() => {
+        dispatch({type: 'SET_UID', value: null});
+        navigation.pop(3);
+      })
+      .catch((error) => {
+        Alert.alert('Perhatian!', 'Coba lagi');
+      });
   };
   return (
     <View>

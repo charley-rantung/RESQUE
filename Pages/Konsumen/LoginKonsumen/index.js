@@ -17,9 +17,6 @@ const LoginKonsumen = ({navigation}) => {
   const dispatch = useDispatch();
   const [email, setEmail] = useState('');
   const [password, setPass] = useState('');
-  useEffect(() => {
-    console.log('Dari useEffect', globalState.uid);
-  }, [globalState]);
 
   const onPressMasuk = () => {
     console.log(email, password); //========== 1
@@ -27,15 +24,14 @@ const LoginKonsumen = ({navigation}) => {
       .auth()
       .signInWithEmailAndPassword(email, password)
       .then((resp) => {
+        console.log(resp.user.id);
         dispatch({type: 'SET_UID', value: resp.user.uid});
-        console.log('dari respon api:', resp.user.uid); //========== 2
-        console.log(globalState.uid); //========== 3
         firebase
           .database()
           .ref('akunKonsumen/' + resp.user.uid)
-          .on('value', (snapshot) => {
-            console.log('isi snapshot', snapshot.val()); //========== 4
-            if (snapshot.val()) {
+          .get()
+          .then((snapshot) => {
+            if (snapshot.exists()) {
               Alert.alert('Sukses', 'Berhasil Masuk', [
                 {
                   text: 'Ke halaman utama',

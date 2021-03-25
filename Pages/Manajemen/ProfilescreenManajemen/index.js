@@ -1,7 +1,29 @@
 import React from 'react';
-import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+  Alert,
+} from 'react-native';
+import firebase from '../../../Config/firebase';
+import {useDispatch} from 'react-redux';
 
 const ProfilescreenManajemen = ({navigation}) => {
+  const dispatch = useDispatch();
+  const onPressKeluar = () => {
+    firebase
+      .auth()
+      .signOut()
+      .then(() => {
+        dispatch({type: 'SET_UID', value: null});
+        navigation.pop(3);
+      })
+      .catch((error) => {
+        Alert.alert('Perhatian!', 'Coba lagi');
+      });
+  };
   return (
     <View>
       <View
@@ -50,7 +72,7 @@ const ProfilescreenManajemen = ({navigation}) => {
               style={{height: 20, width: 20}}
             />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.menu}>
+          <TouchableOpacity style={styles.menu} onPress={onPressKeluar}>
             <Text style={styles.teksNama}>Keluar</Text>
             <Image
               source={require('../../../Assets/Icons/right.png')}
