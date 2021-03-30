@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   Dimensions,
   Image,
@@ -10,9 +10,16 @@ import {
   TouchableOpacity,
   Alert,
 } from 'react-native';
+import firebase from '../../../Config/firebase';
+import {useDispatch, useSelector} from 'react-redux';
+
 const {width} = Dimensions.get('window');
 
-const DeskripsiSatgas = ({navigation}) => {
+const DeskripsiSatgas = ({route, navigation}) => {
+  const globalState = useSelector((state) => state);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [userData, setUserData] = useState({});
+
   const btnVerifikasi = () => {
     Alert.alert('Sukses', 'Banquet Hall berhasil di Verifikasi', [
       {
@@ -22,10 +29,28 @@ const DeskripsiSatgas = ({navigation}) => {
     ]);
   };
 
+  useEffect(() => {
+    firebase
+      .database()
+      .ref('akunManajemen/' + route.params.banquetId)
+      .get()
+      .then((snapshot) => {
+        if (snapshot.exists()) {
+          setUserData(snapshot.val());
+        }
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <ScrollView style={{width: '100%'}}>
       {/* Album Scroll */}
       <ScrollView horizontal pagingEnabled style={{width: '100%'}}>
+        {userData.gambarBanquet && (
+          <Image
+            source={{uri: 'data:image/jpeg;base64,' + userData.gambarBanquet}}
+            style={styles.album}
+          />
+        )}
         <Image
           source={require('../../../Assets/Images/banquet1.jpg')}
           style={styles.album}
@@ -35,15 +60,21 @@ const DeskripsiSatgas = ({navigation}) => {
           style={styles.album}
         />
       </ScrollView>
+
       <View style={{marginHorizontal: 15, marginTop: 5}}>
-        <Text style={styles.title}>Banquet Hall 1</Text>
-        <View style={{flexDirection: 'row'}}>
-          <Image
-            source={require('../../../Assets/Icons/location.png')}
-            style={{height: 20, width: 20, marginRight: 5}}
-          />
-          <Text style={styles.deskripsi}>Paal 2</Text>
-        </View>
+        {userData.namaBanquet && (
+          <Text style={styles.title}>{userData.namaBanquet}</Text>
+        )}
+        {userData.lokasiBanquet && (
+          <View style={{flexDirection: 'row'}}>
+            <Image
+              source={require('../../../Assets/Icons/location.png')}
+              style={{height: 20, width: 20, marginRight: 5}}
+            />
+            <Text style={styles.deskripsi}>{userData.lokasiBanquet}</Text>
+          </View>
+        )}
+
         <View
           style={{
             flexDirection: 'row',
@@ -67,29 +98,33 @@ const DeskripsiSatgas = ({navigation}) => {
         <View style={styles.line} />
       </View>
       <View style={{marginHorizontal: 15, marginTop: 5}}>
-        <Text style={styles.subtitle}>Jam Operasional</Text>
-        <Text style={styles.deskripsi}>Senin, Selasa, Kamis, Minggu</Text>
-        <Text style={styles.deskripsi}>08.00 - 23.00 Wita</Text>
+        <Text style={styles.subtitle}>Waktu Operasional</Text>
+        {userData.operasionalBanquet && (
+          <Text style={styles.deskripsi}>{userData.operasionalBanquet}</Text>
+        )}
         <View style={styles.line} />
       </View>
       <View style={{marginHorizontal: 15, marginTop: 5}}>
         <Text style={styles.subtitle}>Kapasitas</Text>
-        <Text style={styles.deskripsi}>100 - 500 Orang</Text>
+        {userData.kapasitasBanquet && (
+          <Text style={styles.deskripsi}>
+            {`${userData.kapasitasBanquet.min} - ${userData.kapasitasBanquet.max} Tamu`}
+          </Text>
+        )}
         <View style={styles.line} />
       </View>
       <View style={{marginHorizontal: 15, marginTop: 5}}>
         <Text style={styles.subtitle}>Deskripsi</Text>
-        <Text style={styles.deskripsi}>
-          Alamat lengkap: Jalan A.A. Maramis, Kayu Watu, Mapanget, Kairagi Dua,
-          Kec. Mapanget, Kota Manado, Sulawesi Utara No. Telp: +62431811111
-        </Text>
+        {userData.deskripsiBanquet && (
+          <Text style={styles.deskripsi}>{userData.deskripsiBanquet}</Text>
+        )}
         <View style={styles.line} />
-        <TouchableOpacity
-          style={[styles.button, {alignSelf: 'center'}]}
-          onPress={btnVerifikasi}>
-          <Text style={[styles.text, {color: 'white'}]}>Verifikasi</Text>
-        </TouchableOpacity>
       </View>
+      <TouchableOpacity
+        style={[styles.button, {alignSelf: 'center'}]}
+        onPress={btnVerifikasi}>
+        <Text style={[styles.text, {color: 'white'}]}>Verifikasi</Text>
+      </TouchableOpacity>
     </ScrollView>
   );
 };

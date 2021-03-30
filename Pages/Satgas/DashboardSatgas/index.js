@@ -85,7 +85,7 @@ const DashboardSatgas = () => {
           ),
         }}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name="List"
         component={ListstackScreen}
         options={{
@@ -97,7 +97,7 @@ const DashboardSatgas = () => {
             />
           ),
         }}
-      />
+      /> */}
       <Tab.Screen
         name="Profile"
         component={ProfilestackScreen}

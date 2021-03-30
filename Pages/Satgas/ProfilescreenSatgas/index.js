@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   StyleSheet,
   Text,
@@ -8,17 +8,37 @@ import {
   Alert,
 } from 'react-native';
 import firebase from '../../../Config/firebase';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 const ProfilescreenSatgas = ({navigation}) => {
+  const globalState = useSelector((state) => state);
   const dispatch = useDispatch();
+  const [user, setUser] = useState({});
+
+  useEffect(() => {
+    firebase
+      .database()
+      .ref('akunSatgas/' + globalState.uid)
+      .on('value', (snapshot) => {
+        setUser(snapshot.val());
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const onPressProfil = () => {
+    Alert.alert(
+      'Profil',
+      `Nama Lengkap: ${user.nama} \nEmail: ${user.email} \nNo. Telp: ${user.noTelp}`,
+    );
+  };
+
   const onPressKeluar = () => {
     firebase
       .auth()
       .signOut()
       .then(() => {
         dispatch({type: 'SET_UID', value: null});
-        navigation.pop(3);
+        navigation.popToTop();
       })
       .catch((error) => {
         Alert.alert('Perhatian!', 'Coba lagi');
@@ -42,30 +62,26 @@ const ProfilescreenSatgas = ({navigation}) => {
             source={require('../../../Assets/Icons/emot.png')}
             style={styles.profil}
           />
-          <Text style={styles.teksNama}>---Nama Banquet---</Text>
+          <Text style={styles.teksNama}>---Nama Satgas---</Text>
         </View>
         <View>
-          <TouchableOpacity style={styles.menu}>
+          {/* Button Profil */}
+          <TouchableOpacity style={styles.menu} onPress={onPressProfil}>
             <Text style={styles.teksNama}>Profil</Text>
             <Image
               source={require('../../../Assets/Icons/right.png')}
               style={{height: 20, width: 20}}
             />
           </TouchableOpacity>
+          {/* Button Surat Kerja */}
           <TouchableOpacity style={styles.menu}>
-            <Text style={styles.teksNama}>Sertifikat CHSE</Text>
+            <Text style={styles.teksNama}>Surat Kerja</Text>
             <Image
               source={require('../../../Assets/Icons/right.png')}
               style={{height: 20, width: 20}}
             />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.menu}>
-            <Text style={styles.teksNama}>Data Usaha</Text>
-            <Image
-              source={require('../../../Assets/Icons/right.png')}
-              style={{height: 20, width: 20}}
-            />
-          </TouchableOpacity>
+          {/* Button Keluar */}
           <TouchableOpacity style={styles.menu} onPress={onPressKeluar}>
             <Text style={styles.teksNama}>Keluar</Text>
             <Image

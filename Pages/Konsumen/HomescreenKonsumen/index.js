@@ -99,8 +99,6 @@ const HomescreenKonsumen = ({navigation}) => {
             </View>
           </View>
         ))}
-        {console.log('dari banquetData', banquetData)}
-        {console.log('dari banquetKey', banquetKey)}
       </View>
     </ScrollView>
   );

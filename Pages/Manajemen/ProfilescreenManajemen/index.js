@@ -18,7 +18,7 @@ const ProfilescreenManajemen = ({navigation}) => {
       .signOut()
       .then(() => {
         dispatch({type: 'SET_UID', value: null});
-        navigation.pop(3);
+        navigation.popToTop();
       })
       .catch((error) => {
         Alert.alert('Perhatian!', 'Coba lagi');

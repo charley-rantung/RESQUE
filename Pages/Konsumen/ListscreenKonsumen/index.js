@@ -1,4 +1,5 @@
-import React from 'react';
+/* eslint-disable react-native/no-inline-styles */
+import React, {useState, useEffect} from 'react';
 import {
   Image,
   ScrollView,
@@ -6,113 +7,227 @@ import {
   Text,
   View,
   TouchableOpacity,
+  RefreshControl,
 } from 'react-native';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
+import firebase from '../../../Config/firebase';
+import {useSelector} from 'react-redux';
 
 const TopTab = createMaterialTopTabNavigator();
 
-const CardAktifitas = ({navigation}) => {
-  return (
-    <View style={styles.card}>
-      <View style={{width: '80%'}}>
-        <Text style={styles.textTitle}>Banquet Hall 1</Text>
-        <Text style={styles.textDesc}>14 Februari 2021</Text>
-        <Text style={styles.textDesc}>15.00 WITA</Text>
-        <Text style={styles.textDesc}>Permintaan Menu: </Text>
-        <Text>
-          Ikan bakar, gado-gado, salad buah, sate ayam, nasi merah. Kue
-          pengantin konsepnya bajak laut.
-        </Text>
-        <Text style={styles.textDesc}>Permintaan Dekorasi:</Text>
-        <Text>
-          Dibikin konsep pernikahan ala Korea dengan warna dekorasi putih merah
-          dan biru.
-        </Text>
-
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            marginVertical: 10,
-          }}>
-          <Image
-            source={require('../../../Assets/Icons/alarm.png')}
-            style={styles.icon}
-          />
-          <Text style={styles.textDesc}>Menunggu Konfirmasi</Text>
-        </View>
-
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => navigation.navigate('Catatan')}>
-          <Text style={styles.text}>Lihat Pesanan</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.button, {backgroundColor: 'white'}]}
-          onPress={() => navigation.navigate('')}>
-          <Text style={{color: '#000'}}>Batalkan</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
-  );
-};
 const AktifitasKonsumen = ({navigation}) => {
+  const globalState = useSelector((state) => state);
+  const [dataTransaksi, setDataTransaksi] = useState({});
+  const [refreshing, setRefreshing] = useState(false);
+  const transaksiKey = Object.keys(dataTransaksi);
+
+  const getDataTfromFB = () => {
+    firebase
+      .database()
+      .ref('transaksi/')
+      .orderByChild('idPemesan')
+      .equalTo(globalState.uid)
+      .once('value', (snapshot) => {
+        if (snapshot.exists()) {
+          setDataTransaksi(snapshot.val());
+        }
+      });
+  };
+
+  const onRefresh = () => {
+    setRefreshing(true);
+    getDataTfromFB();
+    setRefreshing(false);
+  };
+
+  const checkStatus = (item) => {
+    if (dataTransaksi[item].status == 0) {
+      return (
+        <View style={styles.card} key={item}>
+          <View style={{width: '80%'}}>
+            <Text style={styles.textTitle}>
+              {dataTransaksi[item].namaBanquet}
+            </Text>
+            <Text style={styles.textDesc}>
+              {dataTransaksi[item].tanggalRes}
+            </Text>
+            <Text style={styles.textDesc}>{dataTransaksi[item].jamRes}</Text>
+            <Text style={styles.textDesc}>Pilihan Paket:</Text>
+            <Text>{dataTransaksi[item].paketRes}</Text>
+            <Text style={styles.textDesc}>Permintaan : </Text>
+            <Text>{dataTransaksi[item].permintaanRes}</Text>
+            {/* Menunggu Konfirmasi */}
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                marginVertical: 10,
+              }}>
+              <Image
+                source={require('../../../Assets/Icons/alarm.png')}
+                style={styles.icon}
+              />
+              <Text style={styles.textDesc}>Menunggu Konfirmasi</Text>
+            </View>
+            {/* Button Batalkan */}
+            <TouchableOpacity
+              style={[styles.button, {backgroundColor: 'white'}]}
+              onPress={() => navigation.navigate('')}>
+              <Text style={{color: '#000'}}>Batalkan</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      );
+    } else if (dataTransaksi[item].status == 1) {
+      return (
+        <View style={styles.card} key={item}>
+          <View style={{width: '80%'}}>
+            <Text style={styles.textTitle}>
+              {dataTransaksi[item].namaBanquet}
+            </Text>
+            <Text style={styles.textDesc}>
+              {dataTransaksi[item].tanggalRes}
+            </Text>
+            <Text style={styles.textDesc}>{dataTransaksi[item].jamRes}</Text>
+            <Text style={styles.textDesc}>Pilihan Paket:</Text>
+            <Text>{dataTransaksi[item].paketRes}</Text>
+            <Text style={styles.textDesc}>Permintaan : </Text>
+            <Text>{dataTransaksi[item].permintaanRes}</Text>
+            {/* Telah Konfirmasi */}
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                marginVertical: 10,
+              }}>
+              <Image
+                source={require('../../../Assets/Icons/alarm.png')}
+                style={styles.icon}
+              />
+              <Text style={styles.textDesc}>Telah Konfirmasi</Text>
+            </View>
+            {/* Button Lihat Pesanan */}
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() =>
+                navigation.navigate('Catatan', {
+                  transaksiId: item,
+                  banquetId: dataTransaksi[item].idBanquet,
+                })
+              }>
+              <Text style={styles.text}>Lihat Pesanan</Text>
+            </TouchableOpacity>
+            {/* Button Batalkan */}
+            <TouchableOpacity
+              style={[styles.button, {backgroundColor: 'white'}]}
+              onPress={() => navigation.navigate('')}>
+              <Text style={{color: '#000'}}>Batalkan</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      );
+    }
+  };
+
+  useEffect(() => {
+    onRefresh();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
-    <ScrollView>
+    <ScrollView
+      style={{flex: 1, backgroundColor: '#ffffff'}}
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }>
       <View style={{alignItems: 'center', marginTop: 20}}>
-        <CardAktifitas navigation={navigation} />
-        <CardAktifitas navigation={navigation} />
+        {/* Cards */}
+        {transaksiKey.map((item) => checkStatus(item))}
       </View>
     </ScrollView>
   );
 };
 
-const CardRiwayat = ({navigation}) => {
-  return (
-    <View style={styles.card}>
-      <View style={{width: '80%'}}>
-        <Text style={styles.textTitle}>Banquet Hall 1</Text>
-        <Text style={styles.textDesc}>14 Februari 2021</Text>
-        <Text style={styles.textDesc}>15.00 WITA</Text>
-        <Text style={styles.textDesc}>Permintaan Menu: </Text>
-        <Text>
-          Ikan bakar, gado-gado, salad buah, sate ayam, nasi merah. Kue
-          pengantin konsepnya bajak laut.
-        </Text>
-        <Text style={styles.textDesc}>Permintaan Dekorasi:</Text>
-        <Text>
-          Dibikin konsep pernikahan ala Korea dengan warna dekorasi putih merah
-          dan biru.
-        </Text>
-
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            marginVertical: 10,
-          }}>
-          <Image
-            source={require('../../../Assets/Icons/alarm.png')}
-            style={styles.icon}
-          />
-          <Text style={styles.textDesc}>Selesai</Text>
-        </View>
-
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => navigation.navigate('')}>
-          <Text style={styles.text}>Detail Transaksi</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
-  );
-};
 const RiwayatKonsumen = ({navigation}) => {
+  const globalState = useSelector((state) => state);
+  const [dataTransaksi, setDataTransaksi] = useState({});
+  const [refreshing, setRefreshing] = useState(false);
+  const transaksiKey = Object.keys(dataTransaksi);
+
+  const getDataTfromFB = () => {
+    firebase
+      .database()
+      .ref('transaksi/')
+      .orderByChild('idPemesan')
+      .equalTo(globalState.uid)
+      .once('value', (snapshot) => {
+        if (snapshot.exists()) {
+          setDataTransaksi(snapshot.val());
+        }
+      });
+  };
+
+  const onRefresh = () => {
+    setRefreshing(true);
+    getDataTfromFB();
+    setRefreshing(false);
+  };
+
+  const checkStatus = (item) => {
+    if (dataTransaksi[item].status == 2) {
+      return (
+        <View style={styles.card} key={item}>
+          <View style={{width: '80%'}}>
+            <Text style={styles.textTitle}>
+              {dataTransaksi[item].namaBanquet}
+            </Text>
+            <Text style={styles.textDesc}>
+              {dataTransaksi[item].tanggalRes}
+            </Text>
+            <Text style={styles.textDesc}>{dataTransaksi[item].jamRes}</Text>
+            <Text style={styles.textDesc}>Pilihan Paket:</Text>
+            <Text>{dataTransaksi[item].paketRes}</Text>
+            <Text style={styles.textDesc}>Permintaan : </Text>
+            <Text>{dataTransaksi[item].permintaanRes}</Text>
+            {/* Selesai */}
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                marginVertical: 10,
+              }}>
+              <Image
+                source={require('../../../Assets/Icons/alarm.png')}
+                style={styles.icon}
+              />
+              <Text style={styles.textDesc}>Selesai</Text>
+            </View>
+            {/* Button Detail Transaksi */}
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => navigation.navigate()}>
+              <Text style={styles.text}>Detail Transaksi</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      );
+    }
+  };
+
+  useEffect(() => {
+    onRefresh();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
-    <ScrollView>
+    <ScrollView
+      style={{flex: 1, backgroundColor: '#ffffff'}}
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }>
       <View style={{alignItems: 'center', marginTop: 20}}>
-        <CardRiwayat navigation={navigation} />
-        <CardRiwayat navigation={navigation} />
+        {/* Cards */}
+        {transaksiKey.map((item) => checkStatus(item))}
       </View>
     </ScrollView>
   );
@@ -130,8 +245,16 @@ const ListscreenKonsumen = ({navigation}) => {
         style: {backgroundColor: '#2D4F6C'},
         indicatorStyle: {backgroundColor: '#fff'},
       }}>
-      <TopTab.Screen name="AktifitasKonsumen" component={AktifitasKonsumen} />
-      <TopTab.Screen name="RiwayatKonsumen" component={RiwayatKonsumen} />
+      <TopTab.Screen
+        name="AktifitasKonsumen"
+        component={AktifitasKonsumen}
+        options={{title: 'Aktifitas'}}
+      />
+      <TopTab.Screen
+        name="RiwayatKonsumen"
+        component={RiwayatKonsumen}
+        options={{title: 'Riwayat'}}
+      />
     </TopTab.Navigator>
   );
 };

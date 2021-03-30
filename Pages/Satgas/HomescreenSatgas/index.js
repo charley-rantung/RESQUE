@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   ScrollView,
   StyleSheet,
@@ -8,48 +8,24 @@ import {
   Image,
   TouchableOpacity,
 } from 'react-native';
-
-const Card = ({navigation}) => {
-  return (
-    <View style={styles.Card}>
-      {/* Foto Banquet */}
-      <Image
-        source={require('../../../Assets/Images/banquet1.jpg')}
-        style={styles.thumbnail}
-      />
-      {/* Detail Lokasi */}
-      <View style={styles.location}>
-        <Text style={{fontSize: 12, fontWeight: 'bold', color: '#ffffff'}}>
-          Paal 2
-        </Text>
-      </View>
-      {/* Nama Banquet */}
-      <Text style={{fontSize: 16}}>Banquet Hall 1</Text>
-      {/* Jumlah Tamu */}
-      <Text style={{fontSize: 12}}>100 - 500 Tamu</Text>
-      {/* Harga dan tombol 'Lihat' */}
-      <View style={styles.btnLihat}>
-        <View>
-          <Text style={{fontSize: 12}}>Mulai dari:</Text>
-          <Text style={{fontSize: 12}}>25.000.000</Text>
-        </View>
-        <TouchableOpacity
-          style={[styles.button, {backgroundColor: 'white'}]}
-          onPress={() => navigation.navigate('DeskripsiSatgas')}>
-          <Text
-            style={[
-              styles.text,
-              {fontSize: 12, fontWeight: 'bold', color: '#2D4F6C'},
-            ]}>
-            Lihat
-          </Text>
-        </TouchableOpacity>
-      </View>
-    </View>
-  );
-};
+import firebase from '../../../Config/firebase';
 
 const HomescreenSatgas = ({navigation}) => {
+  const [banquetData, setBanquetData] = useState({});
+  const banquetKey = Object.keys(banquetData);
+  useEffect(() => {
+    firebase
+      .database()
+      .ref('akunManajemen/')
+      .get()
+      .then((snapshot) => {
+        if (snapshot.exists()) {
+          setBanquetData(snapshot.val());
+        } else {
+        }
+      });
+  }, []);
+
   return (
     <ScrollView style={{flex: 1, backgroundColor: '#ffffff'}}>
       <View
@@ -58,12 +34,71 @@ const HomescreenSatgas = ({navigation}) => {
           flexWrap: 'wrap',
           justifyContent: 'space-evenly',
         }}>
-        <Card navigation={navigation} />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
+        {/* Cards */}
+        {banquetKey.map((item) => (
+          <View style={styles.Card} key={item}>
+            {/* Foto Banquet */}
+            <Image
+              source={{
+                uri:
+                  'data:image/jpeg;base64,' + banquetData[item].gambarBanquet,
+              }}
+              style={styles.thumbnail}
+            />
+            {/* Detail Lokasi */}
+            <View
+              style={{
+                height: 20,
+                width: 60,
+                backgroundColor: '#2D4F6C',
+                borderRadius: 4,
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
+              <Text
+                style={{fontSize: 12, fontWeight: 'bold', color: '#ffffff'}}>
+                {banquetData[item].lokasiBanquet}
+              </Text>
+            </View>
+            {/* Nama Banquet */}
+            <Text style={{fontSize: 16}}>{banquetData[item].namaBanquet}</Text>
+            {/* Jumlah Tamu */}
+            <Text style={{fontSize: 12}}>
+              {`${banquetData[item].kapasitasBanquet.min} - ${banquetData[item].kapasitasBanquet.max} Tamu`}
+            </Text>
+            {/* Harga dan tombol 'Lihat' */}
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                marginTop: 30,
+                marginRight: 5,
+              }}>
+              <View>
+                <Text style={{fontSize: 12}}>Mulai dari:</Text>
+                <Text style={{fontSize: 12}}>
+                  {banquetData[item].hargaMinBanquet}
+                </Text>
+              </View>
+              <TouchableOpacity
+                style={[styles.button, {backgroundColor: 'white'}]}
+                onPress={() =>
+                  navigation.navigate('DeskripsiSatgas', {banquetId: item})
+                }>
+                <Text
+                  style={[
+                    styles.text,
+                    {fontSize: 12, fontWeight: 'bold', color: '#2D4F6C'},
+                  ]}>
+                  Lihat
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        ))}
       </View>
     </ScrollView>
   );
@@ -73,19 +108,18 @@ export default HomescreenSatgas;
 
 const styles = StyleSheet.create({
   Card: {
-    height: 220,
     width: 165,
     backgroundColor: '#ffffff',
     marginTop: 10,
-    elevation: 20,
+    elevation: 5,
     borderWidth: 1,
     borderColor: '#ffffff',
     borderRadius: 5,
   },
   thumbnail: {
     height: 110,
-    width: 165,
-    resizeMode: 'contain',
+    width: '100%',
+    resizeMode: 'cover',
     alignSelf: 'center',
     borderRadius: 5,
   },
@@ -97,22 +131,5 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  location: {
-    height: 20,
-    width: 60,
-    backgroundColor: '#2D4F6C',
-    borderRadius: 4,
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  btnLihat: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginTop: 30,
-    marginRight: 5,
   },
 });

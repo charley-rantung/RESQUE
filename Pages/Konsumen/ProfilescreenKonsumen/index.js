@@ -16,6 +16,7 @@ const ProfilescreenKonsumen = ({navigation}) => {
   const globalState = useSelector((state) => state);
   const dispatch = useDispatch();
   const [user, setUser] = useState({});
+
   useEffect(() => {
     firebase
       .database()
@@ -24,6 +25,7 @@ const ProfilescreenKonsumen = ({navigation}) => {
         setUser(snapshot.val());
       });
   }, []);
+
   const onPressProfil = () => {
     Alert.alert(
       'Profil',
@@ -37,7 +39,7 @@ const ProfilescreenKonsumen = ({navigation}) => {
       .signOut()
       .then(() => {
         dispatch({type: 'SET_UID', value: null});
-        navigation.pop(3);
+        navigation.popToTop();
       })
       .catch((error) => {
         Alert.alert('Perhatian!', 'Coba lagi');

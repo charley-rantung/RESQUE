@@ -52,7 +52,6 @@ const DataUsahaTab = ({navigation}) => {
     if (gambarB) {
       return (
         <Image
-          // source={{uri: gambar.uri}}
           source={{uri: 'data:image/jpeg;base64,' + gambarB}}
           style={{height: 240, width: '100%', resizeMode: 'contain'}}
         />

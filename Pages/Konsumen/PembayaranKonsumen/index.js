@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Alert,
   StyleSheet,
@@ -8,21 +8,64 @@ import {
   Image,
 } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
+import firebase from '../../../Config/firebase';
 
-const Card = ({namaBank, noRek}) => {
-  return (
-    <View style={styles.card}>
-      <Text style={{fontWeight: 'bold'}}>{namaBank}</Text>
-      <Text />
-      <Text> No. Rekening:</Text>
-      <Text style={{fontSize: 16, fontWeight: 'bold'}}>{noRek}</Text>
-    </View>
-  );
-};
-
-const PembayaranKonsumen = ({navigation}) => {
-  const [Gambar, setGambar] = useState('');
+const PembayaranKonsumen = ({route, navigation}) => {
+  const [gambar, setGambar] = useState('');
+  const [dataBanquet, setDataBanquet] = useState({});
   const options = {};
+
+  const Card = () => {
+    if (dataBanquet.noRekBanquet) {
+      return (
+        <View>
+          <View style={styles.card}>
+            <Text style={{fontWeight: 'bold'}}>BNI</Text>
+            <Text />
+            <Text>No. Rekening:</Text>
+            <Text style={{fontSize: 16, fontWeight: 'bold'}}>
+              {dataBanquet.noRekBanquet.bni}
+            </Text>
+          </View>
+          <View style={styles.card}>
+            <Text style={{fontWeight: 'bold'}}>BRI</Text>
+            <Text />
+            <Text>No. Rekening:</Text>
+            <Text style={{fontSize: 16, fontWeight: 'bold'}}>
+              {dataBanquet.noRekBanquet.bri}
+            </Text>
+          </View>
+          <View style={styles.card}>
+            <Text style={{fontWeight: 'bold'}}>BCA</Text>
+            <Text />
+            <Text>No. Rekening:</Text>
+            <Text style={{fontSize: 16, fontWeight: 'bold'}}>
+              {dataBanquet.noRekBanquet.bca}
+            </Text>
+          </View>
+          <View style={styles.card}>
+            <Text style={{fontWeight: 'bold'}}>MANDIRI</Text>
+            <Text />
+            <Text>No. Rekening:</Text>
+            <Text style={{fontSize: 16, fontWeight: 'bold'}}>
+              {dataBanquet.noRekBanquet.mandiri}
+            </Text>
+          </View>
+        </View>
+      );
+    }
+  };
+
+  const getDataBfromFB = () => {
+    firebase
+      .database()
+      .ref('akunManajemen/' + route.params.banquetId)
+      .once('value', (snapshot) => {
+        if (snapshot.exists()) {
+          setDataBanquet(snapshot.val());
+        }
+      });
+  };
   const handlingPhoto = () => {
     ImagePicker.launchImageLibrary(options, (response) => {
       if (response.didCancel) {
@@ -33,15 +76,47 @@ const PembayaranKonsumen = ({navigation}) => {
         Alert.alert('Error', response.error);
       } else {
         Alert.alert('Berhasil', 'Berhasil memilih foto bukti pembayaran');
-        setGambar(response.uri);
+        setGambar(response.data);
       }
     });
   };
+
+  const onPressKirim = () => {
+    if (gambar) {
+      firebase
+        .database()
+        .ref('transaksi/' + route.params.transaksiId)
+        .update({
+          buktiRes: gambar,
+          status: 2,
+        })
+        .then(() => {
+          Alert.alert(
+            'Sukses',
+            'Pembayaran Berhasil',
+            [
+              {
+                text: 'Lihat Riwayat Reservasi',
+                onPress: () => navigation.navigate('RiwayatKonsumen'),
+              },
+            ],
+            {cancelable: false},
+          );
+        })
+        .catch(() => {
+          Alert.alert('Gagal', 'Data tidak berhasil disimpan');
+        });
+    } else {
+      Alert.alert('Peringatan', 'Belum ada bukti pembayaran');
+    }
+  };
+  useEffect(() => {
+    getDataBfromFB();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <View style={styles.container}>
-      <Card namaBank="Bank BRI" noRek=" 896 082312030313" />
-      <Card namaBank="Bank BNI" noRek=" 896 082312030313" />
-      <Card namaBank="Bank BCA" noRek=" 896 082312030313" />
+      {Card()}
 
       <TouchableOpacity
         style={{
@@ -63,19 +138,7 @@ const PembayaranKonsumen = ({navigation}) => {
 
       <TouchableOpacity
         style={[styles.button, {alignSelf: 'center'}]}
-        onPress={() =>
-          Alert.alert(
-            'Sukses',
-            'Pembayaran Berhasil',
-            [
-              {
-                text: 'Lihat Riwayat Reservasi',
-                onPress: () => navigation.navigate('RiwayatKonsumen'),
-              },
-            ],
-            {cancelable: false},
-          )
-        }>
+        onPress={onPressKirim}>
         <Text style={{color: 'white'}}>Kirim</Text>
       </TouchableOpacity>
     </View>

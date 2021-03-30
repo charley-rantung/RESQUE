@@ -16,7 +16,7 @@ import {useSelector} from 'react-redux';
 
 const PemesananKonsumen = ({route, navigation}) => {
   const globalState = useSelector((state) => state);
-  const [paketB, setPaketB] = useState('');
+  const [dataBanquet, setDataBanquet] = useState({});
   const [tanggal, setTanggal] = useState(new Date());
   const [jam, setJam] = useState(new Date());
   const [paket, setPaket] = useState('');
@@ -31,7 +31,7 @@ const PemesananKonsumen = ({route, navigation}) => {
       .get()
       .then((snapshot) => {
         if (snapshot.exists()) {
-          setPaketB(snapshot.val().paketBanquet);
+          setDataBanquet(snapshot.val());
         }
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -47,8 +47,11 @@ const PemesananKonsumen = ({route, navigation}) => {
             .push({
               idPemesan: globalState.uid,
               idBanquet: route.params.banquetId,
-              tanggalRes: tanggal.toJSON(),
-              jamRes: jam.toJSON(),
+              namaBanquet: dataBanquet.namaBanquet,
+              tanggalRes: `${tanggal.getDate()} - ${
+                tanggal.getMonth() + 1
+              } - ${tanggal.getFullYear()}`,
+              jamRes: `${jam.getHours()} : ${jam.getMinutes()}`,
               paketRes: paket,
               permintaanRes: permintaan,
               status: 0,
@@ -196,7 +199,7 @@ const PemesananKonsumen = ({route, navigation}) => {
           <Text style={styles.title}>Daftar Paket</Text>
           <View style={[styles.input, {height: 200, padding: 5}]}>
             <ScrollView nestedScrollEnabled={true}>
-              <Text>{paketB}</Text>
+              <Text>{dataBanquet.paketBanquet}</Text>
             </ScrollView>
           </View>
         </View>

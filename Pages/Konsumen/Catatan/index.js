@@ -1,28 +1,64 @@
-import React from 'react';
-import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {
+  StyleSheet,
+  Text,
+  ScrollView,
+  TouchableOpacity,
+  Image,
+  RefreshControl,
+} from 'react-native';
+import firebase from '../../../Config/firebase';
 
-const Catatan = ({navigation}) => {
+const Catatan = ({route, navigation}) => {
+  const [dataTransaksi, setDataTransaksi] = useState({});
+  const [refreshing, setRefreshing] = useState(false);
+
+  const getDataTfromFB = () => {
+    firebase
+      .database()
+      .ref('transaksi/' + route.params.transaksiId)
+      .once('value', (snapshot) => {
+        if (snapshot.exists()) {
+          setDataTransaksi(snapshot.val());
+        }
+      });
+  };
+
+  const onRefresh = () => {
+    setRefreshing(true);
+    getDataTfromFB();
+    setRefreshing(false);
+  };
+
+  useEffect(() => {
+    getDataTfromFB();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
-    <View>
+    <ScrollView
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }>
       <Text style={styles.teks1}>Catatan</Text>
-      <Text style={styles.teks2}>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris turpis
-        sagittis, elementum consequat vulputate quis mi. Consequat sed et
-        fermentum porttitor ac. At elit lorem quisque integer neque dolor neque
-        aliquam interdum. Facilisi facilisis sit mauris eget. Eget scelerisque
-        viverra erat iaculis est pretium enim. Orci, elementum lorem lacus
-        vehicula. Est metus, dolor purus lacus, netus tortor, id risus.
-        Pellentesque quam ac dignissim morbi ac lacus, facilisi lorem in.{' '}
-      </Text>
+      <Image
+        source={{uri: 'data:image/jpeg;base64,' + dataTransaksi.catatanRes}}
+        style={styles.image}
+      />
       <Text style={styles.teks1}>Kesepakatan Harga</Text>
-      <Text style={styles.teks2}>Rp 15.325.000</Text>
+      <Text style={styles.teks2}>Rp {dataTransaksi.hargaRes}</Text>
 
       <TouchableOpacity
         style={[styles.button, {alignSelf: 'center'}]}
-        onPress={() => navigation.navigate('PembayaranKonsumen')}>
+        onPress={() =>
+          navigation.navigate('PembayaranKonsumen', {
+            banquetId: route.params.banquetId,
+            transaksiId: route.params.transaksiId,
+          })
+        }>
         <Text style={{color: 'white'}}>Lanjut</Text>
       </TouchableOpacity>
-    </View>
+    </ScrollView>
   );
 };
 
@@ -48,5 +84,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginVertical: 10,
+  },
+  image: {
+    height: 640,
+    width: 480,
+    resizeMode: 'cover',
   },
 });

@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   Image,
   ScrollView,
@@ -8,62 +8,125 @@ import {
   View,
   TouchableOpacity,
   Alert,
+  RefreshControl,
 } from 'react-native';
-
-const Card = ({navigation}) => {
-  const kontakPemesan = () => {
-    Alert.alert('Kontak', 'WA: 082312030011\nTelp: 082241328477');
-  };
-
-  return (
-    <View style={styles.card}>
-      <View style={{width: '80%'}}>
-        <Text style={styles.textTitle}>--- Nama Pemesan ---</Text>
-        <Text style={styles.textDesc}>14 Februari 2021</Text>
-        <Text style={styles.textDesc}>15.00 WITA</Text>
-        <Text style={styles.textDesc}>Permintaan Menu: </Text>
-        <Text>
-          Ikan bakar, gado-gado, salad buah, sate ayam, nasi merah. Kue
-          pengantin konsepnya bajak laut.
-        </Text>
-        <Text style={styles.textDesc}>Permintaan Dekorasi:</Text>
-        <Text>
-          Dibikin konsep pernikahan ala Korea dengan warna dekorasi putih merah
-          dan biru.
-        </Text>
-
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            marginVertical: 10,
-          }}>
-          <Image
-            source={require('../../../Assets/Icons/alarm.png')}
-            style={styles.icon}
-          />
-          <Text style={styles.textDesc}>Menunggu Konfirmasi</Text>
-        </View>
-
-        <TouchableOpacity style={styles.button} onPress={kontakPemesan}>
-          <Text style={styles.text}>Hubungi Pemesan</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.button, {backgroundColor: '#207868'}]}
-          onPress={() => navigation.navigate('CatatanManajemen')}>
-          <Text style={styles.text}>Terima</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
-  );
-};
+import firebase from '../../../Config/firebase';
+import {useSelector} from 'react-redux';
 
 const HomescreenManajemen = ({navigation}) => {
+  const globalState = useSelector((state) => state);
+  const [dataTransaksi, setDataTransaksi] = useState({});
+  const [dataKonsumen, setDataKonsumen] = useState({});
+  const [refreshing, setRefreshing] = useState(false);
+  const transaksiKey = Object.keys(dataTransaksi);
+
+  const getDataTfromFB = () => {
+    firebase
+      .database()
+      .ref('transaksi/')
+      .orderByChild('idBanquet')
+      .equalTo(globalState.uid)
+      .once('value', (snapshot) => {
+        if (snapshot.exists()) {
+          setDataTransaksi(snapshot.val());
+        }
+      });
+  };
+
+  const getDataKfromFB = () => {
+    firebase
+      .database()
+      .ref('akunKonsumen/')
+      .get()
+      .then((snapshot) => {
+        if (snapshot.exists()) {
+          setDataKonsumen(snapshot.val());
+        }
+      });
+  };
+
+  const onRefresh = () => {
+    setRefreshing(true);
+    getDataTfromFB();
+    getDataKfromFB();
+    setRefreshing(false);
+  };
+
+  const cekNama = (uid) => {
+    if (dataKonsumen[uid]) {
+      return dataKonsumen[uid].nama;
+    }
+  };
+
+  const cekKontak = (uid) => {
+    var kontak = dataKonsumen[uid].noTelp;
+    Alert.alert('Kontak', kontak);
+  };
+
+  const cekStatus = (item) => {
+    if (dataTransaksi[item].status == 0) {
+      return (
+        <View style={styles.card}>
+          <View style={{width: '80%'}} key={item}>
+            <Text style={styles.textTitle}>
+              {cekNama(dataTransaksi[item].idPemesan)}
+            </Text>
+            <Text style={styles.textDesc}>
+              {dataTransaksi[item].tanggalRes}
+            </Text>
+            <Text style={styles.textDesc}>{dataTransaksi[item].jamRes}</Text>
+            <Text style={styles.textDesc}>Pilihan Paket :</Text>
+            <Text>{dataTransaksi[item].paketRes}</Text>
+            <Text style={styles.textDesc}>Permintaan Menu :</Text>
+            <Text>{dataTransaksi[item].permintaanRes}</Text>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                marginVertical: 10,
+              }}>
+              <Image
+                source={require('../../../Assets/Icons/alarm.png')}
+                style={styles.icon}
+              />
+              <Text style={styles.textDesc}>Menunggu Konfirmasi</Text>
+            </View>
+
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => cekKontak(dataTransaksi[item].idPemesan)}>
+              <Text style={styles.text}>Hubungi Pemesan</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.button, {backgroundColor: '#207868'}]}
+              onPress={() =>
+                navigation.navigate('CatatanManajemen', {transaksiId: item})
+              }>
+              <Text style={styles.text}>Terima</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      );
+    }
+  };
+
+  useEffect(() => {
+    getDataTfromFB();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    onRefresh();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
-    <ScrollView>
+    <ScrollView
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }>
       <View style={{alignItems: 'center', marginTop: 20}}>
-        <Card navigation={navigation} />
-        <Card navigation={navigation} />
+        {transaksiKey.map((item) => cekStatus(item))}
       </View>
     </ScrollView>
   );
