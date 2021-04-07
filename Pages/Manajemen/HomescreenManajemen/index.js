@@ -29,7 +29,14 @@ const HomescreenManajemen = ({navigation}) => {
       .once('value', (snapshot) => {
         if (snapshot.exists()) {
           setDataTransaksi(snapshot.val());
+          setRefreshing(false);
         }
+      })
+      .catch((error) => {
+        setRefreshing(false);
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        Alert.alert(errorCode, errorMessage);
       });
   };
 
@@ -41,7 +48,14 @@ const HomescreenManajemen = ({navigation}) => {
       .then((snapshot) => {
         if (snapshot.exists()) {
           setDataKonsumen(snapshot.val());
+          setRefreshing(false);
         }
+      })
+      .catch((error) => {
+        setRefreshing(false);
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        Alert.alert(errorCode, errorMessage);
       });
   };
 
@@ -49,7 +63,6 @@ const HomescreenManajemen = ({navigation}) => {
     setRefreshing(true);
     getDataTfromFB();
     getDataKfromFB();
-    setRefreshing(false);
   };
 
   const cekNama = (uid) => {

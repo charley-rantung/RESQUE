@@ -8,9 +8,11 @@ import {
   Text,
   View,
   TouchableOpacity,
+  Modal,
+  Alert,
 } from 'react-native';
 import firebase from '../../../Config/firebase';
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 
 const {width} = Dimensions.get('window');
 
@@ -31,25 +33,47 @@ const ProfilTab = ({navigation}) => {
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const cekVerified = () => {
+    if (userData.verified === true) {
+      return (
+        <TouchableOpacity
+          style={{
+            height: 60,
+            width: 120,
+            position: 'absolute',
+            bottom: 10,
+            right: 10,
+          }}
+          onPress={() =>
+            Alert.alert(
+              'INFO',
+              'Banquet ini memiliki sertifikat CHSE dan telah diverifikasi oleh Satuan Tugas Covid-19',
+            )
+          }>
+          <Image
+            source={require('../../../Assets/Images/chse-certified.png')}
+            style={{
+              height: 60,
+              width: 120,
+            }}
+          />
+        </TouchableOpacity>
+      );
+    }
+  };
+
   return (
     <ScrollView style={{width: '100%'}}>
       {/* Album Scroll */}
-      {console.log(userData)}
       <ScrollView horizontal pagingEnabled style={{width: '100%'}}>
-        <Image
-          source={require('../../../Assets/Images/banquet1.jpg')}
-          style={styles.album}
-        />
-        <Image
-          source={require('../../../Assets/Images/banquet2.jpg')}
-          style={styles.album}
-        />
         {userData.gambarBanquet && (
           <Image
             source={{uri: 'data:image/jpeg;base64,' + userData.gambarBanquet}}
             style={styles.album}
           />
         )}
+        {cekVerified()}
       </ScrollView>
 
       <View style={{marginHorizontal: 15, marginTop: 5}}>
@@ -82,10 +106,29 @@ const ProfilTab = ({navigation}) => {
               borderColor: '#797979',
               alignItems: 'center',
               justifyContent: 'center',
-            }}>
+            }}
+            onPress={() => setModalVisible(!modalVisible)}>
             <Text>Lihat</Text>
           </TouchableOpacity>
         </View>
+        {/* Modal Sertifikat CHSE */}
+        <Modal
+          animationType="slide"
+          visible={modalVisible}
+          transparent={false}
+          style={styles.modal}>
+          {/* <View style={styles.modalContainer}> */}
+          <Image
+            source={{uri: 'data:image/jpeg;base64,' + userData.chseBase64}}
+            style={styles.chseContainer}
+          />
+          <TouchableOpacity
+            onPress={() => setModalVisible(!modalVisible)}
+            style={[styles.button, {alignSelf: 'center'}]}>
+            <Text style={{color: '#ffffff', textAlign: 'center'}}>Tutup</Text>
+          </TouchableOpacity>
+          {/* </View> */}
+        </Modal>
         <View style={styles.line} />
       </View>
       <View style={{marginHorizontal: 15, marginTop: 5}}>
@@ -154,5 +197,23 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginVertical: 10,
+  },
+  modal: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 2,
+    borderRadius: 20,
+    backgroundColor: '#a5a5a5',
+    margin: 20,
+    padding: 35,
+  },
+  chseContainer: {
+    height: '80%',
+    width: '90%',
+    alignSelf: 'center',
+    resizeMode: 'contain',
+    borderWidth: 2,
+    borderColor: 'black',
+    margin: 20,
   },
 });

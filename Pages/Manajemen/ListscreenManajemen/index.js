@@ -31,6 +31,7 @@ const MenungguPembayaran = ({navigation}) => {
       .once('value', (snapshot) => {
         if (snapshot.exists()) {
           setDataTransaksi(snapshot.val());
+          setRefreshing(false);
         }
       });
   };
@@ -43,6 +44,7 @@ const MenungguPembayaran = ({navigation}) => {
       .then((snapshot) => {
         if (snapshot.exists()) {
           setDataKonsumen(snapshot.val());
+          setRefreshing(false);
         }
       });
   };
@@ -51,7 +53,6 @@ const MenungguPembayaran = ({navigation}) => {
     setRefreshing(true);
     getDataTfromFB();
     getDataKfromFB();
-    setRefreshing(false);
   };
 
   const cekNama = (uid) => {
@@ -79,7 +80,7 @@ const MenungguPembayaran = ({navigation}) => {
             <Text style={styles.textDesc}>{dataTransaksi[item].jamRes}</Text>
             <Text style={styles.textDesc}>Pilihan Paket :</Text>
             <Text>{dataTransaksi[item].paketRes}</Text>
-            <Text style={styles.textDesc}>Permintaan Menu :</Text>
+            <Text style={styles.textDesc}>Permintaan :</Text>
             <Text>{dataTransaksi[item].permintaanRes}</Text>
             <View
               style={{
@@ -143,6 +144,7 @@ const Selesai = ({navigation}) => {
       .once('value', (snapshot) => {
         if (snapshot.exists()) {
           setDataTransaksi(snapshot.val());
+          setRefreshing(false);
         }
       });
   };
@@ -155,6 +157,7 @@ const Selesai = ({navigation}) => {
       .then((snapshot) => {
         if (snapshot.exists()) {
           setDataKonsumen(snapshot.val());
+          setRefreshing(false);
         }
       });
   };
@@ -163,7 +166,6 @@ const Selesai = ({navigation}) => {
     setRefreshing(true);
     getDataTfromFB();
     getDataKfromFB();
-    setRefreshing(false);
   };
 
   const cekNama = (uid) => {
@@ -191,7 +193,7 @@ const Selesai = ({navigation}) => {
             <Text style={styles.textDesc}>{dataTransaksi[item].jamRes}</Text>
             <Text style={styles.textDesc}>Pilihan Paket :</Text>
             <Text>{dataTransaksi[item].paketRes}</Text>
-            <Text style={styles.textDesc}>Permintaan Menu :</Text>
+            <Text style={styles.textDesc}>Permintaan :</Text>
             <Text>{dataTransaksi[item].permintaanRes}</Text>
             {/* Text Status Selesai */}
             <View
@@ -215,7 +217,12 @@ const Selesai = ({navigation}) => {
             {/* Button Detail Transaksi */}
             <TouchableOpacity
               style={styles.button}
-              onPress={() => navigation.navigate('')}>
+              onPress={() =>
+                navigation.navigate('DetailTransaksiManajemen', {
+                  transaksiId: item,
+                  banquetId: dataTransaksi[item].idBanquet,
+                })
+              }>
               <Text style={styles.text}>Detail Transaksi</Text>
             </TouchableOpacity>
           </View>

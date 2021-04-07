@@ -59,23 +59,15 @@ const ProfilescreenSatgas = ({navigation}) => {
             alignItems: 'center',
           }}>
           <Image
-            source={require('../../../Assets/Icons/emot.png')}
+            source={require('../../../Assets/Icons/ResqueIcon.png')}
             style={styles.profil}
           />
-          <Text style={styles.teksNama}>---Nama Satgas---</Text>
+          <Text style={styles.teksNama}>RESQUE v0.1</Text>
         </View>
         <View>
           {/* Button Profil */}
           <TouchableOpacity style={styles.menu} onPress={onPressProfil}>
             <Text style={styles.teksNama}>Profil</Text>
-            <Image
-              source={require('../../../Assets/Icons/right.png')}
-              style={{height: 20, width: 20}}
-            />
-          </TouchableOpacity>
-          {/* Button Surat Kerja */}
-          <TouchableOpacity style={styles.menu}>
-            <Text style={styles.teksNama}>Surat Kerja</Text>
             <Image
               source={require('../../../Assets/Icons/right.png')}
               style={{height: 20, width: 20}}
@@ -102,6 +94,7 @@ const styles = StyleSheet.create({
     height: 60,
     width: 60,
     marginRight: 35,
+    resizeMode: 'contain',
   },
   teksNama: {
     fontSize: 20,

@@ -9,6 +9,7 @@ import {
   PembayaranKonsumen,
   ListscreenKonsumen,
   Catatan,
+  DetailTransaksiKonsumen,
   ProfilescreenKonsumen,
 } from '../../index';
 
@@ -65,6 +66,11 @@ const ListstackScreen = ({navigation}) => {
         name="PembayaranKonsumen"
         component={PembayaranKonsumen}
         options={{headerShown: true, headerTitle: 'Pembayaran'}}
+      />
+      <ListStack.Screen
+        name="DetailTransaksiKonsumen"
+        component={DetailTransaksiKonsumen}
+        options={{headerShown: true, headerTitle: 'Detail Transaksi'}}
       />
     </ListStack.Navigator>
   );

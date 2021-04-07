@@ -9,9 +9,12 @@ import {
   View,
   TouchableOpacity,
   Alert,
+  Modal,
 } from 'react-native';
 import firebase from '../../../Config/firebase';
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
+
+// import {useSelector} from 'react-redux';
 
 const {width} = Dimensions.get('window');
 
@@ -19,17 +22,22 @@ const DeskripsiSatgas = ({route, navigation}) => {
   const globalState = useSelector((state) => state);
   const [modalVisible, setModalVisible] = useState(false);
   const [userData, setUserData] = useState({});
+  const [verified, setVerified] = useState(false);
 
-  const btnVerifikasi = () => {
-    Alert.alert('Sukses', 'Banquet Hall berhasil di Verifikasi', [
-      {
-        text: 'OK',
-        onPress: () => navigation.navigate('HomeScreenSatgas'),
-      },
-    ]);
+  const getDataSfromFB = () => {
+    firebase
+      .database()
+      .ref('akunSatgas/' + globalState.uid)
+      .get()
+      .then((snapshot) => {
+        if (snapshot.exists()) {
+          setVerified(snapshot.val().verified);
+          console.log(verified);
+        }
+      });
   };
 
-  useEffect(() => {
+  const getDataBfromFB = () => {
     firebase
       .database()
       .ref('akunManajemen/' + route.params.banquetId)
@@ -39,8 +47,72 @@ const DeskripsiSatgas = ({route, navigation}) => {
           setUserData(snapshot.val());
         }
       });
+  };
+
+  useEffect(() => {
+    getDataSfromFB();
+    getDataBfromFB();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const cekVerified = () => {
+    if (userData.verified === true) {
+      return (
+        <TouchableOpacity
+          style={{
+            height: 60,
+            width: 120,
+            position: 'absolute',
+            bottom: 10,
+            right: 10,
+          }}
+          onPress={() =>
+            Alert.alert(
+              'INFO',
+              'Banquet ini memiliki sertifikat CHSE dan telah diverifikasi oleh Satuan Tugas Covid-19',
+            )
+          }>
+          <Image
+            source={require('../../../Assets/Images/chse-certified.png')}
+            style={{
+              height: 60,
+              width: 120,
+            }}
+          />
+        </TouchableOpacity>
+      );
+    }
+  };
+
+  const cekVerifiedSatgas = () => {
+    if (verified) {
+      return (
+        <TouchableOpacity
+          style={[styles.button, {alignSelf: 'center'}]}
+          onPress={onPressVerifikasi}>
+          <Text style={[styles.text, {color: 'white'}]}>Verifikasi</Text>
+        </TouchableOpacity>
+      );
+    }
+  };
+
+  const onPressVerifikasi = () => {
+    firebase
+      .database()
+      .ref('akunManajemen/' + route.params.banquetId)
+      .update({
+        verified: true,
+      })
+      .then(() => {
+        Alert.alert('Sukses', 'Banquet Hall berhasil di Verifikasi', [
+          {
+            text: 'OK',
+            onPress: () => navigation.navigate('HomeScreenSatgas'),
+          },
+        ]);
+      });
+  };
+
   return (
     <ScrollView style={{width: '100%'}}>
       {/* Album Scroll */}
@@ -51,14 +123,7 @@ const DeskripsiSatgas = ({route, navigation}) => {
             style={styles.album}
           />
         )}
-        <Image
-          source={require('../../../Assets/Images/banquet1.jpg')}
-          style={styles.album}
-        />
-        <Image
-          source={require('../../../Assets/Images/banquet2.jpg')}
-          style={styles.album}
-        />
+        {cekVerified()}
       </ScrollView>
 
       <View style={{marginHorizontal: 15, marginTop: 5}}>
@@ -91,10 +156,29 @@ const DeskripsiSatgas = ({route, navigation}) => {
               borderColor: '#797979',
               alignItems: 'center',
               justifyContent: 'center',
-            }}>
+            }}
+            onPress={() => setModalVisible(!modalVisible)}>
             <Text>Lihat</Text>
           </TouchableOpacity>
         </View>
+        {/* Modal Sertifikat CHSE */}
+        <Modal
+          animationType="slide"
+          visible={modalVisible}
+          transparent={false}
+          style={styles.modal}>
+          {/* <View style={styles.modalContainer}> */}
+          <Image
+            source={{uri: 'data:image/jpeg;base64,' + userData.chseBase64}}
+            style={styles.chseContainer}
+          />
+          <TouchableOpacity
+            onPress={() => setModalVisible(!modalVisible)}
+            style={[styles.button, {alignSelf: 'center'}]}>
+            <Text style={{color: '#ffffff', textAlign: 'center'}}>Tutup</Text>
+          </TouchableOpacity>
+          {/* </View> */}
+        </Modal>
         <View style={styles.line} />
       </View>
       <View style={{marginHorizontal: 15, marginTop: 5}}>
@@ -120,11 +204,8 @@ const DeskripsiSatgas = ({route, navigation}) => {
         )}
         <View style={styles.line} />
       </View>
-      <TouchableOpacity
-        style={[styles.button, {alignSelf: 'center'}]}
-        onPress={btnVerifikasi}>
-        <Text style={[styles.text, {color: 'white'}]}>Verifikasi</Text>
-      </TouchableOpacity>
+      {/* Button Verifikasi */}
+      {cekVerifiedSatgas()}
     </ScrollView>
   );
 };
@@ -168,5 +249,23 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginVertical: 10,
+  },
+  modal: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 2,
+    borderRadius: 20,
+    backgroundColor: '#a5a5a5',
+    margin: 20,
+    padding: 35,
+  },
+  chseContainer: {
+    height: '80%',
+    width: '90%',
+    alignSelf: 'center',
+    resizeMode: 'contain',
+    borderWidth: 2,
+    borderColor: 'black',
+    margin: 20,
   },
 });

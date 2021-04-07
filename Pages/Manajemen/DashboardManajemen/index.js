@@ -6,6 +6,7 @@ import {
   HomescreenManajemen,
   CatatanManajemen,
   ListscreenManajemen,
+  DetailTransaksiManajemen,
   ProfilescreenManajemen,
   ProfilTab,
   SertifikatTab,
@@ -50,6 +51,11 @@ const ListstackScreen = ({navigation}) => {
         name="ListScreenManajemen"
         component={ListscreenManajemen}
         options={{headerShown: false}}
+      />
+      <ListStack.Screen
+        name="DetailTransaksiManajemen"
+        component={DetailTransaksiManajemen}
+        options={{headerShown: true, title: 'Detail Transaksi'}}
       />
     </ListStack.Navigator>
   );

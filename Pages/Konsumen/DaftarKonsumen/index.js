@@ -18,13 +18,9 @@ const DaftarKonsumen = ({navigation}) => {
   const globalState = useSelector((state) => state);
   const dispatch = useDispatch();
   const [nama, setNama] = useState('');
-  const [jk, setJk] = useState('');
-  const [tl, setTl] = useState(new Date());
   const [email, setEmail] = useState('');
   const [nohp, setNohp] = useState('');
   const [password, setPass] = useState('');
-  const [data, setData] = useState([{label: 'Pria'}, {label: 'Wanita'}]);
-  const [modalVisible, setModalVisible] = useState(false);
   useEffect(() => {
     console.log('Dari useeffect', globalState);
   }, [globalState]);
@@ -76,54 +72,6 @@ const DaftarKonsumen = ({navigation}) => {
           value={nama}
           onChangeText={(resp) => setNama(resp)}
         />
-      </View>
-      <View style={styles.gap}>
-        <Text>Jenis Kelamin</Text>
-        <RadioButtonRN
-          data={data}
-          selectedBtn={(e) => setJk(e.label)}
-          style={{height: 80, width: 280}}
-          box={false}
-        />
-      </View>
-      <View style={[styles.gap, {width: 280}]}>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          }}>
-          <Text>Tanggal Lahir</Text>
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            <Text>{`${tl.getDate()} - ${
-              tl.getMonth() + 1
-            } - ${tl.getFullYear()}`}</Text>
-            <TouchableOpacity
-              onPress={() => setModalVisible(!modalVisible)}
-              style={styles.button}>
-              <Text style={{color: '#ffffff', textAlign: 'center'}}>Pilih</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-        <Modal
-          animationType="slide"
-          visible={modalVisible}
-          style={{backgroundColor: '#ffffff'}}>
-          <DatePicker
-            date={tl}
-            onDateChange={(val) => setTl(val)}
-            androidVariant={'nativeAndroid'}
-            mode={'date'}
-            style={{alignSelf: 'center'}}
-          />
-          <TouchableOpacity
-            onPress={() => setModalVisible(!modalVisible)}
-            style={[styles.button, {alignSelf: 'center'}]}>
-            <Text style={{color: '#ffffff', textAlign: 'center'}}>
-              Tetapkan
-            </Text>
-          </TouchableOpacity>
-        </Modal>
       </View>
       <View style={styles.gap}>
         <Text>Email</Text>

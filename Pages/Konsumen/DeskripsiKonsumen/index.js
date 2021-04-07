@@ -8,6 +8,7 @@ import {
   Text,
   View,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import firebase from '../../../Config/firebase';
 
@@ -28,6 +29,36 @@ const DeskripsiKonsumen = ({route, navigation}) => {
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const cekVerified = () => {
+    if (userData.verified === true) {
+      return (
+        <TouchableOpacity
+          style={{
+            height: 60,
+            width: 120,
+            position: 'absolute',
+            bottom: 10,
+            right: 10,
+          }}
+          onPress={() =>
+            Alert.alert(
+              'INFO',
+              'Banquet ini memiliki sertifikat CHSE dan telah diverifikasi oleh Satuan Tugas Covid-19',
+            )
+          }>
+          <Image
+            source={require('../../../Assets/Images/chse-certified.png')}
+            style={{
+              height: 60,
+              width: 120,
+            }}
+          />
+        </TouchableOpacity>
+      );
+    }
+  };
+
   return (
     <ScrollView style={{width: '100%'}}>
       {/* Album Scroll */}
@@ -38,6 +69,7 @@ const DeskripsiKonsumen = ({route, navigation}) => {
             style={styles.album}
           />
         )}
+        {cekVerified()}
       </ScrollView>
 
       <View style={{marginHorizontal: 15, marginTop: 5}}>

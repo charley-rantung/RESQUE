@@ -1,7 +1,7 @@
 import React from 'react';
 import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
 
-const FirstScreen = ({navigation}) => {
+const LoginScreen = ({navigation}) => {
   return (
     <View style={{alignItems: 'center'}}>
       <View style={{alignItems: 'center', width: 280}}>
@@ -32,7 +32,7 @@ const FirstScreen = ({navigation}) => {
   );
 };
 
-export default FirstScreen;
+export default LoginScreen;
 
 const styles = StyleSheet.create({
   image: {

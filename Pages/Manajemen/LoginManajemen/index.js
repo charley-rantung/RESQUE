@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -7,18 +7,19 @@ import {
   TouchableOpacity,
   TextInput,
   Alert,
+  ActivityIndicator,
 } from 'react-native';
 import firebase from '../../../Config/firebase';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 
 const LoginManajemen = ({navigation}) => {
-  const globalState = useSelector((state) => state);
   const dispatch = useDispatch();
   const [email, setEmail] = useState('');
   const [password, setPass] = useState('');
+  const [indicator, setIndicator] = useState(false);
 
   const onPressMasuk = () => {
-    console.log(email, password);
+    setIndicator(true);
     firebase
       .auth()
       .signInWithEmailAndPassword(email, password)
@@ -31,13 +32,10 @@ const LoginManajemen = ({navigation}) => {
           .get()
           .then((snapshot) => {
             if (snapshot.exists()) {
-              Alert.alert('Sukses', 'Berhasil Masuk', [
-                {
-                  text: 'Ke halaman utama',
-                  onPress: () => navigation.navigate('DashboardManajemen'),
-                },
-              ]);
+              setIndicator(false);
+              navigation.navigate('DashboardManajemen');
             } else {
+              setIndicator(false);
               Alert.alert(
                 'Gagal',
                 'Email ini tidak terdaftar sebagai Manajemen',
@@ -47,6 +45,7 @@ const LoginManajemen = ({navigation}) => {
           });
       })
       .catch((error) => {
+        setIndicator(false);
         var errorCode = error.code;
         var errorMessage = error.message;
         Alert.alert(errorCode, errorMessage);
@@ -79,6 +78,14 @@ const LoginManajemen = ({navigation}) => {
           onPress={onPressMasuk}>
           <Text style={[styles.text, {color: 'white'}]}>Masuk</Text>
         </TouchableOpacity>
+        {/* Activity Indicator */}
+        <View style={styles.indicator}>
+          <ActivityIndicator
+            animating={indicator}
+            size="large"
+            color="#2D4F6C"
+          />
+        </View>
       </View>
     </View>
   );
@@ -113,5 +120,9 @@ const styles = StyleSheet.create({
     height: 40,
     width: 280,
     paddingLeft: 20,
+  },
+  indicator: {
+    justifyContent: 'center',
+    marginTop: 10,
   },
 });

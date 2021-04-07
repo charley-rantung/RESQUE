@@ -44,8 +44,14 @@ const SertifikatTab = ({navigation}) => {
         .ref('akunManajemen/' + globalState.uid)
         .update({
           chseBase64: gambar.data,
+        })
+        .then(() => {
+          Alert.alert('Sukses', 'Berhasil mengunggah sertifikat');
+          navigation.goBack();
+        })
+        .catch(() => {
+          Alert.alert('Gagal', 'Data tidak berhasil disimpan');
         });
-      Alert.alert('Sukses', 'Berhasil mengunggah sertifikat');
     } else {
       Alert.alert('Peringatan', 'Anda belum memilih gambar');
     }

@@ -14,6 +14,7 @@ import KonfirmasiSelesai from './Konsumen/KonfirmasiSelesai';
 import Catatan from './Konsumen/Catatan';
 import PembayaranKonsumen from './Konsumen/PembayaranKonsumen';
 import ListscreenKonsumen from './Konsumen/ListscreenKonsumen';
+import DetailTransaksiKonsumen from './Konsumen/DetailTransaksiKonsumen';
 import ProfilescreenKonsumen from './Konsumen/ProfilescreenKonsumen';
 
 import LoginManajemen from './Manajemen/LoginManajemen';
@@ -22,6 +23,7 @@ import DashboardManajemen from './Manajemen/DashboardManajemen';
 import HomescreenManajemen from './Manajemen/HomescreenManajemen';
 import CatatanManajemen from './Manajemen/CatatanManajemen';
 import ListscreenManajemen from './Manajemen/ListscreenManajemen';
+import DetailTransaksiManajemen from './Manajemen/DetailTransaksiManajemen';
 import ProfilescreenManajemen from './Manajemen/ProfilescreenManajemen';
 import ProfilTab from './Manajemen/ProfilTab';
 import SertifikatTab from './Manajemen/SertifikatTab';
@@ -48,6 +50,7 @@ export {
   Catatan,
   PembayaranKonsumen,
   ListscreenKonsumen,
+  DetailTransaksiKonsumen,
   ProfilescreenKonsumen,
 };
 export {
@@ -57,6 +60,7 @@ export {
   HomescreenManajemen,
   CatatanManajemen,
   ListscreenManajemen,
+  DetailTransaksiManajemen,
   ProfilescreenManajemen,
   ProfilTab,
   SertifikatTab,

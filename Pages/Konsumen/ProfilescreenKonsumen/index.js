@@ -60,10 +60,10 @@ const ProfilescreenKonsumen = ({navigation}) => {
             alignItems: 'center',
           }}>
           <Image
-            source={require('../../../Assets/Icons/emot.png')}
+            source={require('../../../Assets/Icons/ResqueIcon.png')}
             style={styles.profil}
           />
-          <Text style={styles.teksNama}>Profile Screen Konsumen</Text>
+          <Text style={styles.teksNama}>RESQUE v0.1</Text>
         </View>
         <View>
           <TouchableOpacity
@@ -109,6 +109,7 @@ const styles = StyleSheet.create({
     height: 60,
     width: 60,
     marginRight: 35,
+    resizeMode: 'contain',
   },
   teksNama: {
     fontSize: 20,

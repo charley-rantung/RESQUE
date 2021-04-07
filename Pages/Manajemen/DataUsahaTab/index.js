@@ -88,12 +88,13 @@ const DataUsahaTab = ({navigation}) => {
                             gambarBanquet: gambarB,
                             paketBanquet: paketB,
                             noRekBanquet: {
-                              bni: 0,
-                              bri: 0,
-                              mandiri: 0,
-                              bca: 0,
+                              bni: noRekB.bni,
+                              bri: noRekB.bri,
+                              bca: noRekB.bca,
+                              mandiri: noRekB.mandiri,
                             },
                             deskripsiBanquet: deskripsiB,
+                            dataFilled: true,
                           })
                           .then(() => {
                             Alert.alert('Sukses', 'Data berhasil disimpan');

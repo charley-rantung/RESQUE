@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -8,23 +8,23 @@ import {
   TouchableOpacity,
   TextInput,
   Alert,
+  ActivityIndicator,
 } from 'react-native';
 import firebase from '../../../Config/firebase';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 
 const LoginKonsumen = ({navigation}) => {
-  const globalState = useSelector((state) => state);
   const dispatch = useDispatch();
   const [email, setEmail] = useState('');
   const [password, setPass] = useState('');
+  const [indicator, setIndicator] = useState(false);
 
   const onPressMasuk = () => {
-    console.log(email, password); //========== 1
+    setIndicator(true);
     firebase
       .auth()
       .signInWithEmailAndPassword(email, password)
       .then((resp) => {
-        console.log(resp.user.id);
         dispatch({type: 'SET_UID', value: resp.user.uid});
         firebase
           .database()
@@ -32,13 +32,10 @@ const LoginKonsumen = ({navigation}) => {
           .get()
           .then((snapshot) => {
             if (snapshot.exists()) {
-              Alert.alert('Sukses', 'Berhasil Masuk', [
-                {
-                  text: 'Ke halaman utama',
-                  onPress: () => navigation.navigate('DashboardKonsumen'),
-                },
-              ]);
+              setIndicator(false);
+              navigation.navigate('DashboardKonsumen');
             } else {
+              setIndicator(false);
               Alert.alert(
                 'Gagal',
                 'Email ini tidak terdaftar sebagai Konsumen',
@@ -48,9 +45,10 @@ const LoginKonsumen = ({navigation}) => {
           });
       })
       .catch((error) => {
+        setIndicator(false);
         var errorCode = error.code;
         var errorMessage = error.message;
-        Alert.alert('Kesalahan', errorCode + errorMessage);
+        Alert.alert(errorCode, errorMessage);
       });
   };
   return (
@@ -80,6 +78,14 @@ const LoginKonsumen = ({navigation}) => {
           onPress={onPressMasuk}>
           <Text style={[styles.text, {color: 'white'}]}>Masuk</Text>
         </TouchableOpacity>
+        {/* Activity Indicator */}
+        <View style={styles.indicator}>
+          <ActivityIndicator
+            animating={indicator}
+            size="large"
+            color="#2D4F6C"
+          />
+        </View>
       </View>
     </View>
   );
@@ -114,5 +120,9 @@ const styles = StyleSheet.create({
     height: 40,
     width: 280,
     paddingLeft: 20,
+  },
+  indicator: {
+    justifyContent: 'center',
+    marginTop: 10,
   },
 });

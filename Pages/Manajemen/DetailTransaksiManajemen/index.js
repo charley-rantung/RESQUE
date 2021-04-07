@@ -3,13 +3,12 @@ import {
   StyleSheet,
   Text,
   ScrollView,
-  TouchableOpacity,
   Image,
   RefreshControl,
 } from 'react-native';
 import firebase from '../../../Config/firebase';
 
-const Catatan = ({route, navigation}) => {
+const DetailTransaksiManajemen = ({route}) => {
   const [dataTransaksi, setDataTransaksi] = useState({});
   const [refreshing, setRefreshing] = useState(false);
 
@@ -40,29 +39,23 @@ const Catatan = ({route, navigation}) => {
       refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }>
+      <Text style={styles.teks1}>Kesepakatan Harga</Text>
+      <Text style={styles.teks2}>Rp {dataTransaksi.hargaRes}</Text>
       <Text style={styles.teks1}>Catatan</Text>
       <Image
         source={{uri: 'data:image/jpeg;base64,' + dataTransaksi.catatanRes}}
         style={styles.image}
       />
-      <Text style={styles.teks1}>Kesepakatan Harga</Text>
-      <Text style={styles.teks2}>Rp {dataTransaksi.hargaRes}</Text>
-
-      <TouchableOpacity
-        style={[styles.button, {alignSelf: 'center'}]}
-        onPress={() =>
-          navigation.navigate('PembayaranKonsumen', {
-            banquetId: route.params.banquetId,
-            transaksiId: route.params.transaksiId,
-          })
-        }>
-        <Text style={{color: 'white'}}>Lanjut</Text>
-      </TouchableOpacity>
+      <Text style={styles.teks1}>Bukti Pembayaran</Text>
+      <Image
+        source={{uri: 'data:image/jpeg;base64,' + dataTransaksi.buktiRes}}
+        style={styles.image}
+      />
     </ScrollView>
   );
 };
 
-export default Catatan;
+export default DetailTransaksiManajemen;
 
 const styles = StyleSheet.create({
   teks1: {

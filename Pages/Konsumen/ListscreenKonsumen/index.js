@@ -8,6 +8,7 @@ import {
   View,
   TouchableOpacity,
   RefreshControl,
+  Alert,
 } from 'react-native';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import firebase from '../../../Config/firebase';
@@ -30,6 +31,7 @@ const AktifitasKonsumen = ({navigation}) => {
       .once('value', (snapshot) => {
         if (snapshot.exists()) {
           setDataTransaksi(snapshot.val());
+          setRefreshing(false);
         }
       });
   };
@@ -37,7 +39,21 @@ const AktifitasKonsumen = ({navigation}) => {
   const onRefresh = () => {
     setRefreshing(true);
     getDataTfromFB();
-    setRefreshing(false);
+  };
+
+  const onPressBatalkan = (item) => {
+    firebase
+      .database()
+      .ref('transaksi/' + item)
+      .remove()
+      .then(() => {
+        onRefresh();
+      })
+      .catch((error) => {
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        Alert.alert(errorCode, errorMessage);
+      });
   };
 
   const checkStatus = (item) => {
@@ -72,7 +88,7 @@ const AktifitasKonsumen = ({navigation}) => {
             {/* Button Batalkan */}
             <TouchableOpacity
               style={[styles.button, {backgroundColor: 'white'}]}
-              onPress={() => navigation.navigate('')}>
+              onPress={() => onPressBatalkan(item)}>
               <Text style={{color: '#000'}}>Batalkan</Text>
             </TouchableOpacity>
           </View>
@@ -120,7 +136,7 @@ const AktifitasKonsumen = ({navigation}) => {
             {/* Button Batalkan */}
             <TouchableOpacity
               style={[styles.button, {backgroundColor: 'white'}]}
-              onPress={() => navigation.navigate('')}>
+              onPress={() => onPressBatalkan(item)}>
               <Text style={{color: '#000'}}>Batalkan</Text>
             </TouchableOpacity>
           </View>
@@ -163,6 +179,7 @@ const RiwayatKonsumen = ({navigation}) => {
       .once('value', (snapshot) => {
         if (snapshot.exists()) {
           setDataTransaksi(snapshot.val());
+          setRefreshing(false);
         }
       });
   };
@@ -170,7 +187,6 @@ const RiwayatKonsumen = ({navigation}) => {
   const onRefresh = () => {
     setRefreshing(true);
     getDataTfromFB();
-    setRefreshing(false);
   };
 
   const checkStatus = (item) => {
@@ -205,7 +221,12 @@ const RiwayatKonsumen = ({navigation}) => {
             {/* Button Detail Transaksi */}
             <TouchableOpacity
               style={styles.button}
-              onPress={() => navigation.navigate()}>
+              onPress={() =>
+                navigation.navigate('DetailTransaksiKonsumen', {
+                  transaksiId: item,
+                  banquetId: dataTransaksi[item].idBanquet,
+                })
+              }>
               <Text style={styles.text}>Detail Transaksi</Text>
             </TouchableOpacity>
           </View>
