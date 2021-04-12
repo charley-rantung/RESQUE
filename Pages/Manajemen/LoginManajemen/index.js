@@ -8,6 +8,7 @@ import {
   TextInput,
   Alert,
   ActivityIndicator,
+  ScrollView,
 } from 'react-native';
 import firebase from '../../../Config/firebase';
 import {useDispatch} from 'react-redux';
@@ -52,42 +53,47 @@ const LoginManajemen = ({navigation}) => {
       });
   };
   return (
-    <View style={{alignItems: 'center'}}>
-      <View style={{alignItems: 'center', width: 280}}>
-        <Image
-          source={require('../../../Assets/Images/ResqueLogo1.png')}
-          style={styles.image}
-        />
-        <Text
-          style={[styles.text, {alignSelf: 'flex-start', top: 55, opacity: 0}]}>
-          Masuk Sebagai:{' '}
-        </Text>
-        <TextInput
-          style={[styles.textInput, {marginTop: 63}]}
-          placeholder="Email"
-          onChangeText={(resp) => setEmail(resp)}
-        />
-        <TextInput
-          style={[styles.textInput, {marginTop: 15}]}
-          placeholder="Password"
-          secureTextEntry={true}
-          onChangeText={(resp) => setPass(resp)}
-        />
-        <TouchableOpacity
-          style={[styles.button, {marginTop: 15}]}
-          onPress={onPressMasuk}>
-          <Text style={[styles.text, {color: 'white'}]}>Masuk</Text>
-        </TouchableOpacity>
-        {/* Activity Indicator */}
-        <View style={styles.indicator}>
-          <ActivityIndicator
-            animating={indicator}
-            size="large"
-            color="#2D4F6C"
+    <ScrollView>
+      <View style={{alignItems: 'center'}}>
+        <View style={{alignItems: 'center', width: 280}}>
+          <Image
+            source={require('../../../Assets/Images/ResqueLogo1.png')}
+            style={styles.image}
           />
+          <Text
+            style={[
+              styles.text,
+              {alignSelf: 'flex-start', top: 55, opacity: 0},
+            ]}>
+            Masuk Sebagai:{' '}
+          </Text>
+          <TextInput
+            style={[styles.textInput, {marginTop: 63}]}
+            placeholder="Email"
+            onChangeText={(resp) => setEmail(resp)}
+          />
+          <TextInput
+            style={[styles.textInput, {marginTop: 15}]}
+            placeholder="Password"
+            secureTextEntry={true}
+            onChangeText={(resp) => setPass(resp)}
+          />
+          <TouchableOpacity
+            style={[styles.button, {marginTop: 15}]}
+            onPress={onPressMasuk}>
+            <Text style={[styles.text, {color: 'white'}]}>Masuk</Text>
+          </TouchableOpacity>
+          {/* Activity Indicator */}
+          <View style={styles.indicator}>
+            <ActivityIndicator
+              animating={indicator}
+              size="large"
+              color="#2D4F6C"
+            />
+          </View>
         </View>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
