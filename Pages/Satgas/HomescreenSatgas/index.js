@@ -72,9 +72,17 @@ const HomescreenSatgas = ({navigation}) => {
           {/* Nama Banquet */}
           <Text style={{fontSize: 16}}>{banquetData[item].namaBanquet}</Text>
           {/* Jumlah Tamu */}
-          <Text style={{fontSize: 12}}>
-            {`${banquetData[item].kapasitasBanquet.min} - ${banquetData[item].kapasitasBanquet.max} Tamu`}
-          </Text>
+          <View style={{flexDirection: 'row'}}>
+            <Text style={{fontSize: 12}}>
+              {`${banquetData[item].kapasitasBanquet.min} - ${banquetData[item].kapasitasBanquet.max} Tamu`}
+            </Text>
+            {banquetData[item].verified === true ? (
+              <Image
+                source={require('../../../Assets/Icons/verified.png')}
+                style={{height: 20, width: 20, marginLeft: 5}}
+              />
+            ) : null}
+          </View>
           {/* Harga dan tombol 'Lihat' */}
           <View
             style={{
