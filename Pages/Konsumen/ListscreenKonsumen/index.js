@@ -16,7 +16,7 @@ import {useSelector} from 'react-redux';
 
 const TopTab = createMaterialTopTabNavigator();
 
-const AktifitasKonsumen = ({navigation}) => {
+const AktivitasKonsumen = ({navigation}) => {
   const globalState = useSelector((state) => state);
   const [dataTransaksi, setDataTransaksi] = useState({});
   const [refreshing, setRefreshing] = useState(false);
@@ -257,7 +257,7 @@ const RiwayatKonsumen = ({navigation}) => {
 const ListscreenKonsumen = ({navigation}) => {
   return (
     <TopTab.Navigator
-      initialRouteName="AktifitasKonsumen"
+      initialRouteName="AktivitasKonsumen"
       tabBarOptions={{
         activeTintColor: '#fff',
         inactiveTintColor: '#a7a7a7',
@@ -267,9 +267,9 @@ const ListscreenKonsumen = ({navigation}) => {
         indicatorStyle: {backgroundColor: '#fff'},
       }}>
       <TopTab.Screen
-        name="AktifitasKonsumen"
-        component={AktifitasKonsumen}
-        options={{title: 'Aktifitas'}}
+        name="AktivitasKonsumen"
+        component={AktivitasKonsumen}
+        options={{title: 'Aktivitas'}}
       />
       <TopTab.Screen
         name="RiwayatKonsumen"
