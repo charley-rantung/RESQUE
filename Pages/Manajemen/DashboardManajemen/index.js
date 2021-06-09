@@ -11,6 +11,7 @@ import {
   ProfilTab,
   SertifikatTab,
   DataUsahaTab,
+  DaftarPaketManajemen,
 } from '../../index.js';
 
 const Tab = createMaterialBottomTabNavigator();
@@ -29,7 +30,7 @@ const HomestackScreen = ({navigation}) => {
       <HomeStack.Screen
         name="HomeScreenManajemen"
         component={HomescreenManajemen}
-        options={{headerShown: false}}
+        options={{headerShown: true, headerTitle: 'RESQUE', headerLeft: null}}
       />
       <HomeStack.Screen
         name="CatatanManajemen"
@@ -87,6 +88,11 @@ const ProfilestackScreen = ({navigation}) => {
         name="DataUsahaTab"
         component={DataUsahaTab}
         options={{title: 'Lengkapi Data Usaha'}}
+      />
+      <ProfileStack.Screen
+        name="DaftarPaket"
+        component={DaftarPaketManajemen}
+        options={{title: 'Paket'}}
       />
     </ProfileStack.Navigator>
   );

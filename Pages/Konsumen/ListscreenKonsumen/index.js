@@ -60,6 +60,9 @@ const AktivitasKonsumen = ({navigation}) => {
     if (dataTransaksi[item].status == 0) {
       return (
         <View style={styles.card} key={item}>
+          <View
+            style={{width: '80%', borderWidth: 6, borderColor: '#ffd300'}}
+          />
           <View style={{width: '80%'}}>
             <Text style={styles.textTitle}>
               {dataTransaksi[item].namaBanquet}
@@ -97,6 +100,9 @@ const AktivitasKonsumen = ({navigation}) => {
     } else if (dataTransaksi[item].status == 1) {
       return (
         <View style={styles.card} key={item}>
+          <View
+            style={{width: '80%', borderWidth: 6, borderColor: '#4ca456'}}
+          />
           <View style={{width: '80%'}}>
             <Text style={styles.textTitle}>
               {dataTransaksi[item].namaBanquet}

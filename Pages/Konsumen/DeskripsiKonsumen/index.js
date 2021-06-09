@@ -88,7 +88,7 @@ const DeskripsiKonsumen = ({route, navigation}) => {
         <View style={styles.line} />
       </View>
       <View style={{marginHorizontal: 15, marginTop: 5}}>
-        <Text style={styles.subtitle}>Waktu Operasional</Text>
+        <Text style={styles.subtitle}>Layanan Reservasi</Text>
         {userData.operasionalBanquet && (
           <Text style={styles.deskripsi}>{userData.operasionalBanquet}</Text>
         )}

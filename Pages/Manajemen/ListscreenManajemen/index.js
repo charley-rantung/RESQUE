@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   Alert,
   RefreshControl,
+  Linking,
 } from 'react-native';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import firebase from '../../../Config/firebase';
@@ -63,7 +64,7 @@ const MenungguPembayaran = ({navigation}) => {
 
   const cekKontak = (uid) => {
     var kontak = dataKonsumen[uid].noTelp;
-    Alert.alert('Kontak', kontak);
+    Linking.openURL(`tel:${kontak}`);
   };
 
   const cekStatus = (item) => {
@@ -176,7 +177,7 @@ const Selesai = ({navigation}) => {
 
   const cekKontak = (uid) => {
     var kontak = dataKonsumen[uid].noTelp;
-    Alert.alert('Kontak', kontak);
+    Linking.openURL(`tel:${kontak}`);
   };
 
   const cekStatus = (item) => {
@@ -278,7 +279,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     width: '90%',
     borderWidth: 1,
-    borderColor: '#2D4F6C',
+    borderColor: '#408140',
     borderRadius: 10,
     alignItems: 'center',
     marginBottom: 20,

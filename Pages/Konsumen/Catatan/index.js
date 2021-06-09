@@ -8,6 +8,7 @@ import {
   RefreshControl,
 } from 'react-native';
 import firebase from '../../../Config/firebase';
+import NumberFormat from 'react-number-format';
 
 const Catatan = ({route, navigation}) => {
   const [dataTransaksi, setDataTransaksi] = useState({});
@@ -46,7 +47,13 @@ const Catatan = ({route, navigation}) => {
         style={styles.image}
       />
       <Text style={styles.teks1}>Kesepakatan Harga</Text>
-      <Text style={styles.teks2}>Rp {dataTransaksi.hargaRes}</Text>
+      <NumberFormat
+        value={dataTransaksi.hargaRes}
+        displayType={'text'}
+        thousandSeparator={true}
+        prefix={'Rp '}
+        renderText={(value, props) => <Text style={styles.teks2}>{value}</Text>}
+      />
 
       <TouchableOpacity
         style={[styles.button, {alignSelf: 'center'}]}

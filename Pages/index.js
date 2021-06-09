@@ -28,6 +28,7 @@ import ProfilescreenManajemen from './Manajemen/ProfilescreenManajemen';
 import ProfilTab from './Manajemen/ProfilTab';
 import SertifikatTab from './Manajemen/SertifikatTab';
 import DataUsahaTab from './Manajemen/DataUsahaTab';
+import DaftarPaketManajemen from './Manajemen/DaftarPaketManajemen';
 
 import LoginSatgas from './Satgas/LoginSatgas';
 import DaftarSatgas from './Satgas/DaftarSatgas';
@@ -65,6 +66,7 @@ export {
   ProfilTab,
   SertifikatTab,
   DataUsahaTab,
+  DaftarPaketManajemen,
 };
 export {
   LoginSatgas,

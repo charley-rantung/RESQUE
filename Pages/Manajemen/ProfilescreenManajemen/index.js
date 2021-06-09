@@ -72,6 +72,15 @@ const ProfilescreenManajemen = ({navigation}) => {
               style={{height: 20, width: 20}}
             />
           </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.menu}
+            onPress={() => navigation.navigate('DaftarPaket')}>
+            <Text style={styles.teksNama}>Daftar Paket</Text>
+            <Image
+              source={require('../../../Assets/Icons/right.png')}
+              style={{height: 20, width: 20}}
+            />
+          </TouchableOpacity>
           <TouchableOpacity style={styles.menu} onPress={onPressKeluar}>
             <Text style={styles.teksNama}>Keluar</Text>
             <Image

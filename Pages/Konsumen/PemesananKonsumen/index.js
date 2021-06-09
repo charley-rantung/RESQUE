@@ -5,24 +5,26 @@ import {
   Text,
   View,
   TextInput,
-  Modal,
   TouchableOpacity,
   Alert,
   ScrollView,
 } from 'react-native';
-import DatePicker from 'react-native-date-picker';
+import DateTimePicker from '@react-native-community/datetimepicker';
 import firebase from '../../../Config/firebase';
 import {useSelector} from 'react-redux';
+import {Picker} from '@react-native-picker/picker';
 
 const PemesananKonsumen = ({route, navigation}) => {
   const globalState = useSelector((state) => state);
   const [dataBanquet, setDataBanquet] = useState({});
   const [tanggal, setTanggal] = useState(new Date());
   const [jam, setJam] = useState(new Date());
-  const [paket, setPaket] = useState('');
+  // const [paket, setPaket] = useState('');
   const [permintaan, setPermintaan] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
   const [modalVisible2, setModalVisible2] = useState(false);
+  const [selectedPaket, setSelectedPaket] = useState('');
+  const [selectedKet, setSelectedKet] = useState();
 
   useEffect(() => {
     firebase
@@ -40,7 +42,7 @@ const PemesananKonsumen = ({route, navigation}) => {
   const onPressPesan = () => {
     if (tanggal) {
       if (jam) {
-        if (paket) {
+        if (selectedPaket && selectedPaket !== 'Kosong') {
           firebase
             .database()
             .ref('transaksi/')
@@ -52,7 +54,7 @@ const PemesananKonsumen = ({route, navigation}) => {
                 tanggal.getMonth() + 1
               } - ${tanggal.getFullYear()}`,
               jamRes: `${jam.getHours()} : ${jam.getMinutes()}`,
-              paketRes: paket,
+              paketRes: selectedPaket,
               permintaanRes: permintaan,
               status: 0,
             })
@@ -105,9 +107,9 @@ const PemesananKonsumen = ({route, navigation}) => {
                   paddingHorizontal: 5,
                 },
               ]}>
-              <Text style={styles.title2}>{`${tanggal.getDate()} - ${
+              <Text style={styles.title2}>{`${tanggal.getDate()}/${
                 tanggal.getMonth() + 1
-              } - ${tanggal.getFullYear()}`}</Text>
+              }/${tanggal.getFullYear()}`}</Text>
               <TouchableOpacity
                 onPress={() => setModalVisible(!modalVisible)}
                 style={styles.button}>
@@ -117,26 +119,22 @@ const PemesananKonsumen = ({route, navigation}) => {
               </TouchableOpacity>
             </View>
           </View>
-          <Modal
-            animationType="slide"
-            visible={modalVisible}
-            style={{backgroundColor: '#ffffff'}}>
-            <DatePicker
-              date={tanggal}
-              onDateChange={(val) => setTanggal(val)}
-              androidVariant={'nativeAndroid'}
+          {/* Modal Tanggal */}
+          {modalVisible && (
+            <DateTimePicker
+              testID="dateTimePicker"
+              value={tanggal}
               mode={'date'}
-              minimumDate={new Date()}
-              style={{alignSelf: 'center'}}
+              is24Hour={true}
+              display="calendar"
+              minimumDate={new Date().setDate(new Date().getDate() + 3)}
+              onChange={(event, date) => {
+                const valTanggal = date || tanggal;
+                setTanggal(valTanggal);
+                setModalVisible(!modalVisible);
+              }}
             />
-            <TouchableOpacity
-              onPress={() => setModalVisible(!modalVisible)}
-              style={[styles.button, {alignSelf: 'center'}]}>
-              <Text style={{color: '#ffffff', textAlign: 'center'}}>
-                Tetapkan
-              </Text>
-            </TouchableOpacity>
-          </Modal>
+          )}
         </View>
 
         {/* Jam */}
@@ -161,45 +159,47 @@ const PemesananKonsumen = ({route, navigation}) => {
               <Text style={{color: '#ffffff', textAlign: 'center'}}>Pilih</Text>
             </TouchableOpacity>
           </View>
-
-          <Modal
-            animationType="slide"
-            visible={modalVisible2}
-            style={{backgroundColor: '#ffffff'}}>
-            <DatePicker
-              date={jam}
-              onDateChange={(val) => setJam(val)}
-              androidVariant={'nativeAndroid'}
+          {/* Modal Jam */}
+          {modalVisible2 && (
+            <DateTimePicker
+              testID="dateTimePicker"
+              value={jam}
               mode={'time'}
-              style={{alignSelf: 'center'}}
+              is24Hour={true}
+              display="clock"
+              onChange={(event, date) => {
+                const valJam = date || jam;
+                setJam(valJam);
+                setModalVisible2(!modalVisible2);
+              }}
             />
-            <TouchableOpacity
-              onPress={() => setModalVisible2(!modalVisible2)}
-              style={[styles.button, {alignSelf: 'center'}]}>
-              <Text style={{color: '#ffffff', textAlign: 'center'}}>
-                Tetapkan
-              </Text>
-            </TouchableOpacity>
-          </Modal>
+          )}
         </View>
 
         {/* Pilih Paket */}
         <View style={styles.gap}>
           <Text style={styles.title}>Pilih Paket</Text>
-          <TextInput
-            style={styles.input}
-            value={paket}
-            onChangeText={(resp) => setPaket(resp)}
-            placeholder={'Pilih paket'}
-          />
+          <View style={[styles.input, {justifyContent: 'center'}]}>
+            <Picker
+              selectedValue={selectedPaket}
+              onValueChange={(itemValue, itemIndex) => {
+                setSelectedPaket(itemValue);
+                setSelectedKet(dataBanquet.paketBanquet[itemIndex].keterangan);
+              }}>
+              {dataBanquet.paketBanquet &&
+                dataBanquet.paketBanquet.map((item) => {
+                  return <Picker.Item label={item.nama} value={item.nama} />;
+                })}
+            </Picker>
+          </View>
         </View>
 
-        {/* Daftar Paket */}
+        {/* Keterangan */}
         <View style={[styles.gap, {width: 280}]}>
-          <Text style={styles.title}>Daftar Paket</Text>
+          <Text style={styles.title}>Keterangan</Text>
           <View style={[styles.input, {height: 200, padding: 5}]}>
             <ScrollView nestedScrollEnabled={true}>
-              <Text>{dataBanquet.paketBanquet}</Text>
+              <Text>{selectedKet}</Text>
             </ScrollView>
           </View>
         </View>
@@ -269,5 +269,25 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     color: '#2D4F6C',
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22,
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: 'white',
+    paddingVertical: 5,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
   },
 });

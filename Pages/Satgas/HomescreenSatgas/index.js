@@ -11,6 +11,7 @@ import {
   RefreshControl,
 } from 'react-native';
 import firebase from '../../../Config/firebase';
+import NumberFormat from 'react-number-format';
 
 const HomescreenSatgas = ({navigation}) => {
   const [banquetData, setBanquetData] = useState({});
@@ -93,9 +94,14 @@ const HomescreenSatgas = ({navigation}) => {
             }}>
             <View>
               <Text style={{fontSize: 12}}>Mulai dari:</Text>
-              <Text style={{fontSize: 12}}>
-                {banquetData[item].hargaMinBanquet}
-              </Text>
+              <NumberFormat
+                value={banquetData[item].hargaMinBanquet}
+                displayType={'text'}
+                thousandSeparator={true}
+                renderText={(value, props) => (
+                  <Text style={{fontSize: 12}}>{value}</Text>
+                )}
+              />
             </View>
             <TouchableOpacity
               style={[styles.button, {backgroundColor: 'white'}]}

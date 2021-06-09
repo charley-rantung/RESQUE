@@ -7,9 +7,9 @@ import {
   Image,
   TouchableOpacity,
   TextInput,
-  Alert,
   ActivityIndicator,
   ScrollView,
+  ToastAndroid,
 } from 'react-native';
 import firebase from '../../../Config/firebase';
 import {useDispatch} from 'react-redux';
@@ -37,9 +37,9 @@ const LoginKonsumen = ({navigation}) => {
               navigation.navigate('DashboardKonsumen');
             } else {
               setIndicator(false);
-              Alert.alert(
-                'Gagal',
-                'Email ini tidak terdaftar sebagai Konsumen',
+              ToastAndroid.show(
+                'Email ini tidak terdaftar sebagai konsumen',
+                ToastAndroid.SHORT,
               );
               dispatch({type: 'SET_UID', value: snapshot.val()});
             }
@@ -47,9 +47,9 @@ const LoginKonsumen = ({navigation}) => {
       })
       .catch((error) => {
         setIndicator(false);
-        var errorCode = error.code;
+        // var errorCode = error.code;
         var errorMessage = error.message;
-        Alert.alert(errorCode, errorMessage);
+        ToastAndroid.show(errorMessage, ToastAndroid.LONG);
       });
   };
   return (

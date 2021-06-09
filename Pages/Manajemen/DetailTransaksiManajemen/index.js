@@ -7,6 +7,7 @@ import {
   RefreshControl,
 } from 'react-native';
 import firebase from '../../../Config/firebase';
+import NumberFormat from 'react-number-format';
 
 const DetailTransaksiManajemen = ({route}) => {
   const [dataTransaksi, setDataTransaksi] = useState({});
@@ -40,7 +41,13 @@ const DetailTransaksiManajemen = ({route}) => {
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }>
       <Text style={styles.teks1}>Kesepakatan Harga</Text>
-      <Text style={styles.teks2}>Rp {dataTransaksi.hargaRes}</Text>
+      <NumberFormat
+        value={dataTransaksi.hargaRes}
+        displayType={'text'}
+        thousandSeparator={true}
+        prefix={'Rp '}
+        renderText={(value, props) => <Text style={styles.teks2}>{value}</Text>}
+      />
       <Text style={styles.teks1}>Catatan</Text>
       <Image
         source={{uri: 'data:image/jpeg;base64,' + dataTransaksi.catatanRes}}

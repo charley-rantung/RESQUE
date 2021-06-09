@@ -29,7 +29,7 @@ const HomestackScreen = ({navigation}) => {
       <HomeStack.Screen
         name="HomeScreenKonsumen"
         component={HomescreenKonsumen}
-        options={{headerShown: false}}
+        options={{headerShown: true, headerTitle: 'RESQUE', headerLeft: null}}
       />
       <HomeStack.Screen
         name="DeskripsiKonsumen"

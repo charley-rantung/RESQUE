@@ -5,12 +5,11 @@ import {
   Text,
   View,
   TextInput,
-  Modal,
   TouchableOpacity,
   Alert,
+  ToastAndroid,
+  Platform,
 } from 'react-native';
-import RadioButtonRN from 'radio-buttons-react-native';
-import DatePicker from 'react-native-date-picker';
 import firebase from '../../../Config/firebase';
 import {useDispatch, useSelector} from 'react-redux';
 
@@ -19,7 +18,7 @@ const DaftarKonsumen = ({navigation}) => {
   const dispatch = useDispatch();
   const [nama, setNama] = useState('');
   const [email, setEmail] = useState('');
-  const [nohp, setNohp] = useState('');
+  const [nohp, setNohp] = useState(0);
   const [password, setPass] = useState('');
   useEffect(() => {
     console.log('Dari useeffect', globalState);
@@ -27,7 +26,7 @@ const DaftarKonsumen = ({navigation}) => {
 
   const onPressDaftar = () => {
     if (nama) {
-      if (nohp) {
+      if (nohp && nohp.length >= 7) {
         firebase
           .auth()
           .createUserWithEmailAndPassword(email, password)
@@ -52,15 +51,20 @@ const DaftarKonsumen = ({navigation}) => {
           .catch((error) => {
             var errorCode = error.code;
             var errorMessage = error.message;
-            Alert.alert('Error', errorCode + errorMessage);
+            Platform.OS === 'ios'
+              ? Alert.alert(errorCode, errorMessage)
+              : ToastAndroid.show(errorMessage, ToastAndroid.SHORT);
           });
       } else {
-        Alert.alert('Perhatian', 'Masukan nomor telepon!');
+        Platform.OS === 'ios'
+          ? Alert.alert('Perhatian', 'Masukan nomor telepon!')
+          : ToastAndroid.show('Masukan nomor telepon!', ToastAndroid.SHORT);
       }
     } else {
-      Alert.alert('Perhatian', 'Masukan nama lengkap!');
+      Platform.OS === 'ios'
+        ? Alert.alert('Perhatian', 'Masukan nama lengkap!')
+        : ToastAndroid.show('Masukan nama lengkap!', ToastAndroid.SHORT);
     }
-    console.log(email, password);
   };
 
   return (
@@ -86,8 +90,16 @@ const DaftarKonsumen = ({navigation}) => {
         <TextInput
           style={styles.input}
           value={nohp}
+          keyboardType={'number-pad'}
           onChangeText={(resp) => setNohp(resp)}
         />
+        {nohp.length > 0 && nohp.length < 7 ? (
+          <View>
+            <Text style={{fontSize: 12, color: '#cf1414'}}>
+              Nomor tidak valid
+            </Text>
+          </View>
+        ) : null}
       </View>
       <View style={styles.gap}>
         <Text>Password</Text>

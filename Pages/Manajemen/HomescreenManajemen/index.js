@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   Alert,
   RefreshControl,
+  Linking,
 } from 'react-native';
 import firebase from '../../../Config/firebase';
 import {useSelector} from 'react-redux';
@@ -73,7 +74,7 @@ const HomescreenManajemen = ({navigation}) => {
 
   const cekKontak = (uid) => {
     var kontak = dataKonsumen[uid].noTelp;
-    Alert.alert('Kontak', kontak);
+    Linking.openURL(`tel:${kontak}`);
   };
 
   const cekStatus = (item) => {
@@ -138,9 +139,24 @@ const HomescreenManajemen = ({navigation}) => {
       refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }>
-      <View style={{alignItems: 'center', marginTop: 20}}>
-        {transaksiKey.map((item) => cekStatus(item))}
-      </View>
+      {transaksiKey[0] != null ? (
+        <View style={{alignItems: 'center', marginTop: 20}}>
+          {transaksiKey.map((item) => cekStatus(item))}
+        </View>
+      ) : (
+        <View>
+          <Text
+            style={{
+              fontSize: 20,
+              fontWeight: 'bold',
+              textAlign: 'center',
+              paddingTop: 10,
+              color: '#2D4F6C',
+            }}>
+            Belum ada reservasi
+          </Text>
+        </View>
+      )}
     </ScrollView>
   );
 };
